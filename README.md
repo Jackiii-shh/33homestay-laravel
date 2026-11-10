@@ -1,4 +1,4 @@
-# 33HomeStay — Sistem Informasi Ketersediaan & Reservasi Terpusat (Laravel)
+# 33HomeStay Sistem Informasi Ketersediaan & Reservasi Terpusat (Laravel)
 
 Web app internal untuk mencegah **double booking** di 33HomeStay, dibuat berdasarkan hasil interview UMKM,
 Template Use Case, dan activity diagram final (aktor: **Customer / Calon Tamu, Sistem, Pengelola, Owner**).
@@ -65,10 +65,10 @@ Ubah di `.env`: `DB_CONNECTION=mysql`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWOR
 (Pengunci baris `lockForUpdate` bekerja penuh di MySQL/InnoDB; SQLite cocok untuk demo/pengembangan.)
 
 ## Konfigurasi penting (`.env`, `config/homestay.php`)
-- `HOMESTAY_WHATSAPP` — nomor WhatsApp Business pengelola (format `62812...` tanpa `+`). **Wajib diisi nomor asli.**
+- `HOMESTAY_WHATSAPP` nomor WhatsApp Business pengelola (format `62812...` tanpa `+`). **Wajib diisi nomor asli.**
 - `HOMESTAY_ADDRESS`, `HOMESTAY_MAPS_URL`, `HOMESTAY_INSTAGRAM`, `HOMESTAY_TIKTOK`.
-- **Aturan usulan tim — konfirmasi ke Pak Taufiq:** `HOMESTAY_DP_PERCENTAGE` (50), `HOMESTAY_DP_DEADLINE_HOURS` (6), `HOMESTAY_CHECKIN_CUTOFF` (22:00), `HOMESTAY_DP_FORFEIT_ON_NO_SHOW` (true).
-- Unit kamar sesuai info Owner (**6 unit**: Standard AC 3, Standard Kipas 1, Mezanin 1, Tera House 1). **Harga semua tipe serta kapasitas Tera House masih contoh/placeholder** — ubah lewat dashboard Owner → *Tipe & Harga Kamar* / *Unit Kamar* (tipe baru bisa ditambah dari menu yang sama).
+- **Aturan usulan tim konfirmasi ke Pak Taufiq:** `HOMESTAY_DP_PERCENTAGE` (50), `HOMESTAY_DP_DEADLINE_HOURS` (6), `HOMESTAY_CHECKIN_CUTOFF` (22:00), `HOMESTAY_DP_FORFEIT_ON_NO_SHOW` (true).
+- Unit kamar sesuai info Owner (**6 unit**: Standard AC 3, Standard Kipas 1, Mezanin 1, Tera House 1). **Harga semua tipe serta kapasitas Tera House masih contoh/placeholder** ubah lewat dashboard Owner → *Tipe & Harga Kamar* / *Unit Kamar* (tipe baru bisa ditambah dari menu yang sama).
 
 ### Chatbot AI (opsional)
 Isi `ANTHROPIC_API_KEY` (dan `ANTHROPIC_MODEL`, default `claude-haiku-5-5`) di `.env`.
@@ -77,10 +77,10 @@ Tanpa API key, chatbot otomatis berjalan di **mode dasar berbasis aturan** (harg
 Batas wajar: 20 pesan/menit per IP, riwayat 10 pesan, panjang pesan 600 karakter.
 
 ## Aturan bisnis inti
-1. **Anti double booking** — dua reservasi aktif (Menunggu DP / Terkonfirmasi / Check-in) pada unit sama bentrok bila `A.check_in < B.check_out` **dan** `A.check_out > B.check_in`. Check-out & check-in di hari yang sama **tidak** bentrok.
-2. Validasi dijalankan saat **simpan, ubah tanggal, pindah kamar, dan perpanjang** — di dalam transaksi dengan kunci baris kamar. Percobaan yang ditolak tercatat (*"Double booking dicegah"*) dan dihitung di dashboard Owner.
+1. **Anti double booking**, dua reservasi aktif (Menunggu DP / Terkonfirmasi / Check-in) pada unit sama bentrok bila `A.check_in < B.check_out` **dan** `A.check_out > B.check_in`. Check-out & check-in di hari yang sama **tidak** bentrok.
+2. Validasi dijalankan saat **simpan, ubah tanggal, pindah kamar, dan perpanjang**, di dalam transaksi dengan kunci baris kamar. Percobaan yang ditolak tercatat (*"Double booking dicegah"*) dan dihitung di dashboard Owner.
 3. Reservasi baru → **Menunggu DP**, tanggal langsung terblokir. DP ≥ persentase minimum → **Terkonfirmasi**. Lewat batas waktu tanpa DP → **batal otomatis**.
-4. Pesanan **OTA** (Agoda/Tiket.com) langsung Terkonfirmasi & tercatat dibayar via OTA. Pesanan WhatsApp/walk-in perlu **diblokir manual di OTA** (checklist di dashboard) — integrasi API OTA di luar scope.
+4. Pesanan **OTA** (Agoda/Tiket.com) langsung Terkonfirmasi & tercatat dibayar via OTA. Pesanan WhatsApp/walk-in perlu **diblokir manual di OTA** (checklist di dashboard), integrasi API OTA di luar scope.
 5. **Check-in wajib lunas**; **check-out wajib tanpa sisa tagihan**. Setiap pembayaran menerbitkan invoice PDF bernomor unik + halaman verifikasi publik (`/verifikasi-invoice/{nomor}/{token}`).
 6. Semua perubahan dicatat di **log aktivitas** (siapa, kapan, apa) untuk menekan risiko kecurangan.
 
@@ -101,4 +101,4 @@ Ide lanjutan: sinkronisasi iCal OTA, notifikasi WhatsApp API otomatis, harga mus
 
 ## Catatan keamanan
 Ganti kata sandi akun contoh · set `APP_DEBUG=false` di produksi · gunakan HTTPS · isi `APP_URL` dengan domain asli (dipakai untuk tautan invoice bertanda tangan) · batasi akses server `.env`.
-Data tamu yang disimpan minimal (nama, kota, no. HP) — **jangan** menyimpan KTP atau data identitas sensitif.
+Data tamu yang disimpan minimal (nama, kota, no. HP) **jangan** menyimpan KTP atau data identitas sensitif.
