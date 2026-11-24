@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             RoomSeeder::class,
             ExpenseSeeder::class,
-            DemoDataSeeder::class, // hapus baris ini bila tidak ingin data contoh
+            ActualReservationsSeeder::class, // Mengimpor seluruh 1.578 transaksi riil buku tamu owner
         ]);
     }
 }

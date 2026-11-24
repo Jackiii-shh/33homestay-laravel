@@ -38,10 +38,18 @@ class ReservationController extends Controller
             $query->where('channel', $request->query('channel'));
         }
         if ($request->filled('from')) {
-            $query->where('check_out', '>', $request->query('from'));
+            $from = (string) $request->query('from');
+            if (preg_match('/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/', $from, $m)) {
+                $from = sprintf('%04d-%02d-%02d', $m[3], $m[2], $m[1]);
+            }
+            $query->where('check_out', '>=', $from);
         }
         if ($request->filled('to')) {
-            $query->where('check_in', '<=', $request->query('to'));
+            $to = (string) $request->query('to');
+            if (preg_match('/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/', $to, $m)) {
+                $to = sprintf('%04d-%02d-%02d', $m[3], $m[2], $m[1]);
+            }
+            $query->where('check_in', '<=', $to);
         }
 
         $reservations = $query->orderByDesc('check_in')->orderByDesc('id')->paginate(15)->withQueryString();
