@@ -12,3 +12,4 @@ auth.json
 npm-debug.log
 .idea
 .vscode
+/scratch
