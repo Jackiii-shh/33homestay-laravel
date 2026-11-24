@@ -74,6 +74,8 @@ class ReservationController extends Controller
 
     public function store(Request $request)
     {
+        $isTransit = $request->input('rental_type') === 'transit';
+
         $data = $request->validate([
             'guest_name' => ['required', 'string', 'max:100'],
             'guest_city' => ['nullable', 'string', 'max:80'],
@@ -81,8 +83,10 @@ class ReservationController extends Controller
             'guest_count' => ['required', 'integer', 'min:1', 'max:10'],
             'room_id' => ['required', 'integer', 'exists:rooms,id'],
             'check_in' => ['required', 'date_format:Y-m-d', 'after_or_equal:today'],
-            'check_out' => ['required', 'date_format:Y-m-d', 'after:check_in'],
+            'check_out' => ['required', 'date_format:Y-m-d', $isTransit ? 'same:check_in' : 'after:check_in'],
             'channel' => ['required', Rule::in(array_keys(Reservation::CHANNELS))],
+            'rental_type' => ['nullable', 'in:harian,transit'],
+            'total_price' => ['nullable', 'integer', 'min:50000'],
             'notes' => ['nullable', 'string', 'max:500'],
         ]);
 

@@ -1,0 +1,35 @@
+message_id,text,intent,char_length,word_count
+MSG-0197,"terima kasih banyak atas informasinya ya min, sangat membantu",lainnya,61,9
+MSG-0068,"Kak, homestay nya tanggal 9 kosong gak ya?",cek_ketersediaan,42,8
+MSG-0189,"Tes tes, apakah pesan ini masuk?",lainnya,32,6
+MSG-0021,Saya mau sewa kamar Mezanin untuk 4 orang tgl 30 November ini,reservasi,61,12
+MSG-0109,Kamar Mezanin itu tingkat atau satu lantai ya modelnya?,tanya_info,55,9
+MSG-0039,"Malam min, booking kamar kipas untuk 1 malam hari ini bisa? ya kak",reservasi,66,13
+MSG-0086,"Malam min, cek kamar kipas buat jumat malam kosong gak min? terimakasih",cek_ketersediaan,71,12
+MSG-0173,"Siang kak, minta nomor wa admin yang pegang kunci kamar ya 🙏",hubungi_admin,60,12
+MSG-0138,"Admin tolong telepon saya ya, nomor ini penting mau konfirmasi",hubungi_admin,62,10
+MSG-0185,Sip makasih infonya kak,lainnya,23,4
+MSG-0014,"Tolong pesankan kamar tera house buat keluarga besar kami, check in sabtu sore",reservasi,78,13
+MSG-0069,Bisa tolong lihatin jadwal kalender tanggal 23 masih kosong?,cek_ketersediaan,60,9
+MSG-0002,Bisa pesan Tera House buat malam tahun baru tgl 31 Des - 2 Jan?,reservasi,63,14
+MSG-0150,Minta nomor PIC yang bertugas di lokasi Anyer dong,hubungi_admin,50,9
+MSG-0022,Bisa pesanin kamar standar ac buat malam minggu ini mas?,reservasi,56,10
+MSG-0063,"Halo min, weekend ini ada kamar kosong apa aja ya?",cek_ketersediaan,50,10
+MSG-0031,"Pagi, halo admin, saya mau booking kamar standard ac untuk tanggal 15 agustus ya terimakasih",reservasi,92,15
+MSG-0177,"Malam min, halo pengelola, tolong respon nomor saya di whatsapp ini ya min",hubungi_admin,74,13
+MSG-0214,halo selamat siang tolong infonya,lainnya,33,5
+MSG-0207,Permisi oke terimakasih banyak ya mas ya kak,lainnya,44,8
+MSG-0201,"Halo siap, terima kasih ya admin 🙏",lainnya,34,7
+MSG-0098,Apakah boleh bawa hewan peliharaan (kucing/anjing) ke penginapan?,tanya_info,65,8
+MSG-0093,Berapa harga sewa kamar Standard AC per malamnya kak?,tanya_info,53,9
+MSG-0126,boleh minta rincian harga semua tipe kamar yang ada di 33homestay? min,tanya_info,70,12
+MSG-0168,"Pagi, admin tolong telepon saya ya, nomor ini penting mau konfirmasi ya kak",hubungi_admin,75,13
+MSG-0218,Halo selamat malam,lainnya,18,3
+MSG-0135,apakah di homestay disediakan wifi dan air panas buat mandi? 🙏,tanya_info,62,11
+MSG-0102,Berapa tarif extra bed kalau nambah 1 orang di kamar AC?,tanya_info,56,11
+MSG-0172,Permisi bisa hubungi saya via telepon sekarang kak? ya kak,hubungi_admin,58,10
+MSG-0032,Halo bisa pesan tera house buat malam tahun baru tgl 31 des - 2 jan? tolong infonya,reservasi,83,17
+MSG-0070,Kamar Mezanin hari Sabtu besok masih bisa dipesan gak min?,cek_ketersediaan,58,10
+MSG-0131,Halo fasilitas di kamar mezanin dapat apa saja ya kak? terimakasih,tanya_info,66,11
+MSG-0059,Kak tgl 28-29 Agustus kamar mezanin nya udah keisi belum ya?,cek_ketersediaan,60,11
+MSG-0055,Bisa tolong cek apakah Tera House sudah terisi di hari Sabtu ini?,cek_ketersediaan,65,12

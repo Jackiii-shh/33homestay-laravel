@@ -7,45 +7,76 @@ use App\Models\RoomType;
 use Illuminate\Database\Seeder;
 
 /**
- * DATA CONTOH: tipe & kapasitas sesuai hasil interview (Standard Room AC 2 orang,
- * Standard Room Kipas 2 orang, Mezanin hingga 4 orang). Jumlah unit mengikuti info Owner;
- * HARGA hanya contoh - Owner dapat mengubahnya dari dashboard (menu Tipe Kamar / Unit Kamar).
+ * Data Resmi Unit Kamar 33HomeStay sesuai catatan buku kas riil Owner:
+ * - K1 = Standard Room AC
+ * - K2 = Standard Room AC
+ * - K3 = Mezanin
+ * - K4 = Standard Room Kipas
+ * - K5 = Standard Room AC
+ * - TH-1 = Tera House (Villa)
  */
 class RoomSeeder extends Seeder
 {
     public function run(): void
     {
-        // Total 6 unit (info terbaru dari Owner): Standard AC 3, Standard Kipas 1, Mezanin 1, Tera House 1.
-        $types = [
-            ['slug' => 'standard-room-ac', 'name' => 'Standard Room AC', 'capacity' => 2, 'price' => 350000, 'prefix' => 'AC', 'units' => 3, 'sort' => 1,
-                'description' => 'Kamar standar ber-AC untuk 2 orang.', 'facilities' => ['AC', 'Kapasitas 2 orang']],
-            ['slug' => 'standard-room-kipas', 'name' => 'Standard Room Kipas', 'capacity' => 2, 'price' => 250000, 'prefix' => 'KIPAS', 'units' => 1, 'sort' => 2,
-                'description' => 'Kamar standar dengan kipas angin untuk 2 orang.', 'facilities' => ['Kipas angin', 'Kapasitas 2 orang']],
-            ['slug' => 'mezanin', 'name' => 'Mezanin', 'capacity' => 4, 'price' => 600000, 'prefix' => 'MZN', 'units' => 1, 'sort' => 3,
-                'description' => 'Kamar mezanin untuk hingga 4 orang, cocok untuk keluarga atau grup kecil.', 'facilities' => ['Kapasitas hingga 4 orang']],
-            // KAPASITAS & HARGA Tera House masih PLACEHOLDER - belum diinformasikan Owner. Ubah di dashboard Owner > Tipe & Harga Kamar.
-            ['slug' => 'tera-house', 'name' => 'Tera House', 'capacity' => 4, 'price' => 800000, 'prefix' => 'TERA', 'units' => 1, 'sort' => 4,
-                'description' => 'Hubungi pengelola untuk detail fasilitas dan kapasitas Tera House.', 'facilities' => []],
+        // 4 Tipe Kamar
+        $typeAc = RoomType::updateOrCreate(['slug' => 'standard-room-ac'], [
+            'name' => 'Standard Room AC',
+            'capacity' => 2,
+            'price_per_night' => 300000,
+            'description' => 'Kamar standar ber-AC untuk 2 orang (Unit: K1, K2, K5). Nyaman, sejuk, dan dekat pantai.',
+            'facilities' => ['AC', 'Kamar Mandi Dalam', 'Kapasitas 2 orang', 'WiFi'],
+            'is_active' => true,
+            'sort_order' => 1,
+        ]);
+
+        $typeKipas = RoomType::updateOrCreate(['slug' => 'standard-room-kipas'], [
+            'name' => 'Standard Room Kipas',
+            'capacity' => 2,
+            'price_per_night' => 200000,
+            'description' => 'Kamar standar dengan kipas angin untuk 2 orang (Unit: K4). Ekonomis dan cocok untuk transit / staycation hemat.',
+            'facilities' => ['Kipas Angin', 'Kamar Mandi Dalam', 'Kapasitas 2 orang', 'WiFi'],
+            'is_active' => true,
+            'sort_order' => 2,
+        ]);
+
+        $typeMezanin = RoomType::updateOrCreate(['slug' => 'mezanin'], [
+            'name' => 'Mezanin',
+            'capacity' => 4,
+            'price_per_night' => 350000,
+            'description' => 'Kamar mezanin dengan loteng bertingkat (Unit: K3), berkapasitas hingga 4 orang. Favorit keluarga dan grup kecil.',
+            'facilities' => ['AC', 'Model Mezanin Bertingkat', 'Kapasitas hingga 4 orang', 'WiFi'],
+            'is_active' => true,
+            'sort_order' => 3,
+        ]);
+
+        $typeTera = RoomType::updateOrCreate(['slug' => 'tera-house'], [
+            'name' => 'Tera House',
+            'capacity' => 6,
+            'price_per_night' => 800000,
+            'description' => 'Unit villa terpisah eksklusif untuk keluarga besar / rombongan hingga 6 orang. Halaman privat dan fasilitas lengkap.',
+            'facilities' => ['AC Lengkap', 'Ruang Keluarga Luas', 'Dapur & Kulkas', 'Kapasitas 4-6 orang', 'Parkir Privat'],
+            'is_active' => true,
+            'sort_order' => 4,
+        ]);
+
+        // 6 Unit Fisik sesuai data aktual Owner
+        $units = [
+            ['code' => 'K1', 'type_id' => $typeAc->id, 'notes' => 'Kamar 1 - Standard AC'],
+            ['code' => 'K2', 'type_id' => $typeAc->id, 'notes' => 'Kamar 2 - Standard AC (Kamar paling sering dipesan)'],
+            ['code' => 'K3', 'type_id' => $typeMezanin->id, 'notes' => 'Kamar 3 - Mezanin Bertingkat'],
+            ['code' => 'K4', 'type_id' => $typeKipas->id, 'notes' => 'Kamar 4 - Standard Kipas (Favorit sewa transit)'],
+            ['code' => 'K5', 'type_id' => $typeAc->id, 'notes' => 'Kamar 5 - Standard AC'],
+            ['code' => 'TH-1', 'type_id' => $typeTera->id, 'notes' => 'Tera House - Villa Privat'],
         ];
 
-        foreach ($types as $t) {
-            $type = RoomType::updateOrCreate(['slug' => $t['slug']], [
-                'name' => $t['name'],
-                'capacity' => $t['capacity'],
-                'price_per_night' => $t['price'],
-                'description' => $t['description'],
-                'facilities' => $t['facilities'],
+        foreach ($units as $u) {
+            Room::updateOrCreate(['code' => $u['code']], [
+                'room_type_id' => $u['type_id'],
+                'status' => Room::STATUS_READY,
+                'notes' => $u['notes'],
                 'is_active' => true,
-                'sort_order' => $t['sort'],
             ]);
-
-            for ($i = 1; $i <= $t['units']; $i++) {
-                Room::updateOrCreate(['code' => $t['prefix'].'-'.$i], [
-                    'room_type_id' => $type->id,
-                    'status' => Room::STATUS_READY,
-                    'is_active' => true,
-                ]);
-            }
         }
     }
 }

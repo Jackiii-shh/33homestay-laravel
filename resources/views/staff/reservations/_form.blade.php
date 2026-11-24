@@ -11,6 +11,7 @@
 <form method="POST" action="{{ $editing ? route('reservations.update', $reservation) : route('reservations.store') }}"
       x-data="roomPicker({
           ci: @js($ci), co: @js($co), guests: @js((int) $guests), room: @js((string) $roomId),
+          rentalType: @js(old('rental_type', $reservation->rental_type ?? 'harian')),
           ignore: @js($editing ? $reservation->id : null), locked: @js($locked), url: @js(route('staff.api.rooms')),
           fallback: @js($rooms->map(fn ($r) => ['id' => $r->id, 'label' => $r->code.' - '.$r->type->name, 'total' => null])->values())
       })"
@@ -33,13 +34,26 @@
             </label>
         </div>
 
-        <h2 class="pt-2 font-bold text-slate-900">Jadwal & kamar</h2>
+        <div class="flex items-center justify-between pt-2">
+            <h2 class="font-bold text-slate-900">Jadwal & kamar</h2>
+            <div class="flex items-center gap-4 text-xs">
+                <label class="flex items-center gap-1.5 cursor-pointer font-medium text-slate-700">
+                    <input type="radio" name="rental_type" value="harian" x-model="rentalType" @change="onRentalTypeChange()" class="text-primary-600">
+                    <span>Sewa Harian (Menginap)</span>
+                </label>
+                <label class="flex items-center gap-1.5 cursor-pointer font-medium text-emerald-700">
+                    <input type="radio" name="rental_type" value="transit" x-model="rentalType" @change="onRentalTypeChange()" class="text-emerald-600">
+                    <span class="inline-flex items-center gap-1"><span class="h-2 w-2 rounded-full bg-emerald-500"></span>Transit (Day-Use)</span>
+                </label>
+            </div>
+        </div>
         <div class="grid gap-4 sm:grid-cols-3">
             <label class="block text-sm font-semibold text-slate-700">Check-in *
                 <input type="date" name="check_in" x-model="ci" @change="syncOut()" required {{ $editing ? '' : 'min='.today()->toDateString() }} @if ($locked) readonly @endif class="{{ $inp }}">
             </label>
-            <label class="block text-sm font-semibold text-slate-700">Check-out *
-                <input type="date" name="check_out" x-model="co" @change="load()" :min="ci" required class="{{ $inp }}">
+            <label class="block text-sm font-semibold text-slate-700">
+                <span x-text="rentalType === 'transit' ? 'Check-out (Hari Sama) *' : 'Check-out *'">Check-out *</span>
+                <input type="date" name="check_out" x-model="co" @change="load()" :min="ci" :readonly="rentalType === 'transit'" required class="{{ $inp }}">
                 @if ($locked)<span class="mt-1 block text-xs font-normal text-slate-400">Tamu sudah check-in: hanya check-out yang dapat diubah (perpanjang/persingkat).</span>@endif
             </label>
             <label class="block text-sm font-semibold text-slate-700">Jumlah tamu *
@@ -98,19 +112,37 @@
 function roomPicker(cfg) {
     return {
         ci: cfg.ci, co: cfg.co, guests: cfg.guests, room: cfg.room, locked: cfg.locked,
-        options: cfg.fallback, nights: 0, loading: false, info: '',
+        options: cfg.fallback, nights: 0, loading: false, info: '', rentalType: cfg.rentalType || 'harian',
         get total() {
             const o = this.options.find(x => String(x.id) === String(this.room));
             return o && o.total !== null && o.total !== undefined ? o.total : null;
         },
         rp(n) { return 'Rp ' + new Intl.NumberFormat('id-ID').format(n); },
         init() { if (!this.locked && this.ci && this.co) this.load(); else if (this.ci && this.co) this.calcNights(); },
+        onRentalTypeChange() {
+            if (this.rentalType === 'transit') {
+                this.co = this.ci;
+            } else {
+                if (this.co <= this.ci) {
+                    const d = new Date(this.ci + 'T00:00:00'); d.setDate(d.getDate() + 1);
+                    const p = n => String(n).padStart(2, '0');
+                    this.co = d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate());
+                }
+            }
+            this.load();
+        },
         calcNights() {
-            const a = new Date(this.ci + 'T00:00:00'), b = new Date(this.co + 'T00:00:00');
-            this.nights = Math.max(0, Math.round((b - a) / 86400000));
+            if (this.rentalType === 'transit' || this.ci === this.co) {
+                this.nights = 0;
+            } else {
+                const a = new Date(this.ci + 'T00:00:00'), b = new Date(this.co + 'T00:00:00');
+                this.nights = Math.max(0, Math.round((b - a) / 86400000));
+            }
         },
         syncOut() {
-            if (this.ci && (!this.co || this.co <= this.ci)) {
+            if (this.rentalType === 'transit') {
+                this.co = this.ci;
+            } else if (this.ci && (!this.co || this.co <= this.ci)) {
                 const d = new Date(this.ci + 'T00:00:00'); d.setDate(d.getDate() + 1);
                 const p = n => String(n).padStart(2, '0');
                 this.co = d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate());
@@ -119,7 +151,8 @@ function roomPicker(cfg) {
         },
         async load() {
             this.calcNights();
-            if (this.locked || !this.ci || !this.co || this.co <= this.ci) return;
+            if (this.locked || !this.ci || !this.co) return;
+            if (this.rentalType === 'harian' && this.co <= this.ci) return;
             this.loading = true;
             try {
                 const q = new URLSearchParams({ check_in: this.ci, check_out: this.co, guests: this.guests || '' });

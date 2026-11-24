@@ -138,62 +138,62 @@ class DemoDataSeeder extends Seeder
         ], $staff) : null;
 
         // Sedang menginap (lunas)
-        if ($r = $make('AC-1', -1, 2, 'whatsapp', 'Hendra Wijaya')) {
+        if ($r = $make('K1', -1, 2, 'whatsapp', 'Hendra Wijaya')) {
             $pay($r);
             $r->update(['status' => Reservation::STATUS_CHECKED_IN, 'checked_in_at' => now()->subDay()->setTime(14, 10), 'ota_blocked_at' => now()->subDays(3)]);
         }
         // Check-out hari ini (lunas)
-        if ($r = $make('MZN-1', -2, 0, 'whatsapp', 'Keluarga Rahman', 4)) {
+        if ($r = $make('K3', -2, 0, 'whatsapp', 'Keluarga Rahman', 4)) {
             $pay($r);
             $r->update(['status' => Reservation::STATUS_CHECKED_IN, 'checked_in_at' => now()->subDays(2)->setTime(15, 0), 'ota_blocked_at' => now()->subDays(4)]);
         }
         // Tamu sudah check-out hari ini -> kamar sedang dibersihkan
-        if ($r = $make('KIPAS-1', -2, 0, 'walk_in', 'Lina Marlina')) {
+        if ($r = $make('K4', -2, 0, 'walk_in', 'Lina Marlina')) {
             $pay($r);
             $r->update(['status' => Reservation::STATUS_CHECKED_OUT, 'checked_in_at' => now()->subDays(2)->setTime(14, 0), 'checked_out_at' => now()->setTime(9, 30), 'ota_blocked_at' => now()->subDays(4)]);
             $r->room->update(['status' => Room::STATUS_CLEANING]);
         }
         // Tiba hari ini: DP saja (perlu pelunasan saat check-in)
-        if ($r = $make('AC-2', 0, 1, 'whatsapp', 'Dewi Lestari')) {
+        if ($r = $make('K2', 0, 1, 'whatsapp', 'Dewi Lestari')) {
             $pay($r, $r->minimumDp());
             $r->update(['ota_blocked_at' => now()->subDay()]);
         }
         // Tiba hari ini: sudah lunas, siap check-in
-        if ($r = $make('TERA-1', 0, 2, 'whatsapp', 'Fajar Nugroho', 4)) {
+        if ($r = $make('TH-1', 0, 2, 'whatsapp', 'Fajar Nugroho', 4)) {
             $pay($r);
             $r->update(['ota_blocked_at' => now()->subDays(2)]);
         }
         // Seharusnya tiba kemarin, tidak datang -> perlu tindakan no-show
-        if ($r = $make('AC-3', -1, 0, 'whatsapp', 'Agus Salim')) {
+        if ($r = $make('K5', -1, 0, 'whatsapp', 'Agus Salim')) {
             $pay($r, $r->minimumDp());
             $r->update(['ota_blocked_at' => now()->subDays(3)]);
         }
         // Menunggu DP (belum diblokir di OTA -> muncul di checklist OTA)
-        $make('AC-3', 1, 3, 'whatsapp', 'Rizky Maulana');
+        $make('K5', 1, 3, 'whatsapp', 'Rizky Maulana');
 
         // Akhir pekan depan
         $friday = today()->next(Carbon::FRIDAY);
         $fo = (int) round(today()->diffInDays($friday)); // Carbon 3: positif bila $friday di masa depan
-        if ($r = $make('MZN-1', $fo, $fo + 2, 'whatsapp', 'Keluarga Santoso', 4)) {
+        if ($r = $make('K3', $fo, $fo + 2, 'whatsapp', 'Keluarga Santoso', 4)) {
             $pay($r, $r->minimumDp());
             $r->update(['ota_blocked_at' => now()]);
         }
-        if ($r = $make('AC-2', $fo, $fo + 2, 'whatsapp', 'Nadia Kusuma')) {
+        if ($r = $make('K2', $fo, $fo + 2, 'whatsapp', 'Nadia Kusuma')) {
             $pay($r);
             $r->update(['ota_blocked_at' => now()]);
         }
-        $make('KIPAS-1', $fo, $fo + 2, 'whatsapp', 'Bagas Saputra');
-        if ($r = $make('TERA-1', $fo, $fo + 2, 'whatsapp', 'Rombongan Wijaya', 4)) {
+        $make('K4', $fo, $fo + 2, 'whatsapp', 'Bagas Saputra');
+        if ($r = $make('TH-1', $fo, $fo + 2, 'whatsapp', 'Rombongan Wijaya', 4)) {
             $pay($r, $r->minimumDp());
             $r->update(['ota_blocked_at' => now()]);
         }
 
         // Dari OTA (otomatis terkonfirmasi & terbayar via OTA)
-        $make('KIPAS-1', 4, 6, 'agoda', 'Tamu Agoda');
-        $make('AC-2', 3, 5, 'tiketcom', 'Tamu Tiket.com');
+        $make('K4', 4, 6, 'agoda', 'Tamu Agoda');
+        $make('K2', 3, 5, 'tiketcom', 'Tamu Tiket.com');
 
         // Dibatalkan setelah sempat diblokir di OTA -> perlu dibuka lagi di OTA
-        if ($r = $make('AC-1', 6, 8, 'whatsapp', 'Wulan Sari')) {
+        if ($r = $make('K1', 6, 8, 'whatsapp', 'Wulan Sari')) {
             $pay($r, $r->minimumDp());
             $r->update(['ota_blocked_at' => now()->subDay()]);
             $rs->cancel($r->fresh(), 'Tamu membatalkan', $r->minimumDp(), $staff);
@@ -202,7 +202,7 @@ class DemoDataSeeder extends Seeder
         // Contoh percobaan double booking yang DITOLAK sistem (tercatat di audit & dashboard Owner)
         try {
             $rs->create([
-                'room_id' => $rooms['AC-1']->id, 'guest_name' => 'Percobaan Bentrok', 'guest_count' => 2,
+                'room_id' => $rooms['K1']->id, 'guest_name' => 'Percobaan Bentrok', 'guest_count' => 2,
                 'check_in' => today()->toDateString(), 'check_out' => today()->addDay()->toDateString(), 'channel' => 'whatsapp',
             ], $staff);
         } catch (\App\Exceptions\RoomConflictException) {

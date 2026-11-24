@@ -34,6 +34,7 @@
             ['calendar', 'Kalender Ketersediaan', 'calendar-days', 'calendar'],
             ['reservations.index', 'Daftar Reservasi', 'clipboard-list', 'reservations.index'],
             ['owner.payments', 'Laporan Pembayaran', 'credit-card', 'owner.payments'],
+            ['owner.expenses.index', 'Pengeluaran & Laba Rugi', 'receipt', 'owner.expenses.*'],
             ['owner.audit', 'Log Aktivitas', 'shield', 'owner.audit'],
             ['owner.room-types.index', 'Tipe & Harga Kamar', 'tag', 'owner.room-types.*'],
             ['owner.rooms.index', 'Unit Kamar', 'door-open', 'owner.rooms.*'],

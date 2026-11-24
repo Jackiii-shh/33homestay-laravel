@@ -34,20 +34,24 @@ class Reservation extends Model
         self::STATUS_NO_SHOW => ['No-show', 'bg-orange-100 text-orange-800 ring-orange-200'],
     ];
 
+    public const RENTAL_TYPE_HARIAN = 'harian';
+    public const RENTAL_TYPE_TRANSIT = 'transit';
+
     public const CHANNELS = [
         'whatsapp' => 'WhatsApp Business',
         'agoda' => 'Agoda (OTA)',
         'tiketcom' => 'Tiket.com (OTA)',
+        'traveloka' => 'Traveloka (OTA)',
         'walk_in' => 'Walk-in',
     ];
 
     /** Kanal OTA: sudah terbayar via OTA & tanggal tidak perlu diblokir manual di OTA. */
-    public const OTA_CHANNELS = ['agoda', 'tiketcom'];
+    public const OTA_CHANNELS = ['agoda', 'tiketcom', 'traveloka'];
 
     protected $fillable = [
         'code', 'room_id', 'guest_name', 'guest_city', 'guest_phone', 'guest_count',
         'check_in', 'check_out', 'nights', 'price_per_night', 'total_price',
-        'status', 'channel', 'dp_deadline', 'ota_blocked_at', 'ota_unblocked_at',
+        'status', 'channel', 'rental_type', 'cash_flow_status', 'dp_deadline', 'ota_blocked_at', 'ota_unblocked_at',
         'notes', 'cancel_reason', 'refund_amount', 'dp_forfeited',
         'checked_in_at', 'checked_out_at', 'cancelled_at', 'created_by', 'updated_by',
     ];

@@ -66,6 +66,9 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:owner')->prefix('owner')->name('owner.')->group(function () {
         Route::get('/dashboard', [Owner\DashboardController::class, 'index'])->name('dashboard');
         Route::get('/pembayaran', [Owner\PaymentReportController::class, 'index'])->name('payments');
+        Route::get('/pengeluaran', [Owner\ExpenseController::class, 'index'])->name('expenses.index');
+        Route::post('/pengeluaran', [Owner\ExpenseController::class, 'store'])->name('expenses.store');
+        Route::delete('/pengeluaran/{expense}', [Owner\ExpenseController::class, 'destroy'])->name('expenses.destroy');
         Route::get('/audit', [Owner\AuditController::class, 'index'])->name('audit');
 
         Route::get('/tipe-kamar', [Owner\RoomTypeController::class, 'index'])->name('room-types.index');

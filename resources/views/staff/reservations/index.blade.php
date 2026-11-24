@@ -43,7 +43,14 @@
                     <td class="whitespace-nowrap px-4 py-3 font-mono text-xs font-semibold">{{ $r->code }}</td>
                     <td class="px-4 py-3"><p class="font-semibold text-slate-900">{{ $r->guest_name }}</p><p class="text-xs text-slate-400">{{ $r->guest_city }}</p></td>
                     <td class="whitespace-nowrap px-4 py-3">{{ $r->room->code }}<p class="text-xs text-slate-400">{{ $r->room->type->name }}</p></td>
-                    <td class="whitespace-nowrap px-4 py-3">{{ $r->check_in->translatedFormat('d M') }} → {{ $r->check_out->translatedFormat('d M Y') }}<p class="text-xs text-slate-400">{{ $r->nights }} malam</p></td>
+                    <td class="whitespace-nowrap px-4 py-3">
+                        {{ $r->check_in->translatedFormat('d M Y') }}
+                        @if ($r->rental_type === 'transit' || $r->check_in->isSameDay($r->check_out))
+                            <p class="text-xs font-semibold text-emerald-600">Transit (Day-Use)</p>
+                        @else
+                            <p class="text-xs text-slate-400">→ {{ $r->check_out->translatedFormat('d M Y') }} ({{ $r->nights }} malam)</p>
+                        @endif
+                    </td>
                     <td class="px-4 py-3"><span class="rounded-full px-2.5 py-1 text-xs font-semibold ring-1 {{ $r->statusClasses() }}">{{ $r->statusLabel() }}</span></td>
                     <td class="whitespace-nowrap px-4 py-3">
                         <span class="rounded-full px-2.5 py-1 text-xs font-semibold ring-1 {{ $r->paymentStatusClasses() }}">{{ $r->paymentStatusLabel() }}</span>

@@ -31,12 +31,25 @@ class ReservationService
                 $in = Carbon::parse($data['check_in'])->toDateString();
                 $out = Carbon::parse($data['check_out'])->toDateString();
 
-                $nights = $this->validateStay($room, $in, $out, (int) $data['guest_count']);
+                $rentalType = $data['rental_type'] ?? ($in === $out ? Reservation::RENTAL_TYPE_TRANSIT : Reservation::RENTAL_TYPE_HARIAN);
+                $nights = $this->validateStay($room, $in, $out, (int) $data['guest_count'], $rentalType);
                 $this->assertNoConflict($room, $in, $out);   // <-- inti pencegahan double booking
 
                 $channel = $data['channel'] ?? 'whatsapp';
                 $isOta = in_array($channel, Reservation::OTA_CHANNELS, true);
-                $price = (int) $room->type->price_per_night;
+
+                if ($rentalType === Reservation::RENTAL_TYPE_TRANSIT) {
+                    $defaultTransitRate = match ($room->type->slug ?? '') {
+                        'standard-room-kipas' => 170000,
+                        'mezanin' => 220000,
+                        default => 200000,
+                    };
+                    $totalPrice = (int) ($data['total_price'] ?? $defaultTransitRate);
+                    $price = $totalPrice;
+                } else {
+                    $price = (int) $room->type->price_per_night;
+                    $totalPrice = (int) ($data['total_price'] ?? ($price * $nights));
+                }
 
                 $reservation = Reservation::create([
                     'code' => Reservation::generateCode(),
@@ -49,7 +62,9 @@ class ReservationService
                     'check_out' => $out,
                     'nights' => $nights,
                     'price_per_night' => $price,
-                    'total_price' => $price * $nights,
+                    'total_price' => $totalPrice,
+                    'rental_type' => $rentalType,
+                    'cash_flow_status' => $data['cash_flow_status'] ?? 'settled',
                     'status' => $isOta ? Reservation::STATUS_CONFIRMED : Reservation::STATUS_PENDING,
                     'channel' => $channel,
                     'dp_deadline' => $isOta ? null : now()->addHours((int) config('homestay.dp_deadline_hours', 6)),
@@ -385,13 +400,21 @@ class ReservationService
         return $room;
     }
 
-    private function validateStay(Room $room, string $in, string $out, int $guests): int
+    private function validateStay(Room $room, string $in, string $out, int $guests, string $rentalType = 'harian'): int
     {
         $nights = AvailabilityService::nights($in, $out);
 
-        if ($nights < 1) {
-            throw ValidationException::withMessages(['check_out' => 'Tanggal check-out harus setelah check-in.']);
+        if ($rentalType === 'transit') {
+            if ($in !== $out) {
+                throw ValidationException::withMessages(['check_out' => 'Untuk reservasi sewa Transit (Day-Use), tanggal check-in dan check-out harus sama.']);
+            }
+            $nights = 0; // transit dihitung 0 malam
+        } else {
+            if ($nights < 1) {
+                throw ValidationException::withMessages(['check_out' => 'Tanggal check-out harus setelah check-in untuk sewa harian.']);
+            }
         }
+
         if ($nights > (int) config('homestay.max_stay_nights', 14)) {
             throw ValidationException::withMessages(['check_out' => 'Maksimal menginap '.config('homestay.max_stay_nights', 14).' malam per reservasi.']);
         }

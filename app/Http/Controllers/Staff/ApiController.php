@@ -15,26 +15,42 @@ class ApiController extends Controller
     {
         $data = $request->validate([
             'check_in' => ['required', 'date_format:Y-m-d'],
-            'check_out' => ['required', 'date_format:Y-m-d', 'after:check_in'],
+            'check_out' => ['required', 'date_format:Y-m-d', 'after_or_equal:check_in'],
             'guests' => ['nullable', 'integer', 'min:1', 'max:10'],
             'ignore' => ['nullable', 'integer'],
         ]);
 
-        $nights = AvailabilityService::nights($data['check_in'], $data['check_out']);
+        $isTransit = $data['check_in'] === $data['check_out'];
+        $nights = $isTransit ? 0 : AvailabilityService::nights($data['check_in'], $data['check_out']);
 
         $rooms = $availability
             ->availableRooms($data['check_in'], $data['check_out'], null, $data['ignore'] ?? null)
             ->filter(fn (Room $r) => empty($data['guests']) || $r->type->capacity >= (int) $data['guests'])
-            ->map(fn (Room $r) => [
-                'id' => $r->id,
-                'code' => $r->code,
-                'type' => $r->type->name,
-                'capacity' => $r->type->capacity,
-                'price_per_night' => $r->type->price_per_night,
-                'total' => $r->type->price_per_night * $nights,
-                'label' => $r->code.' - '.$r->type->name.' (maks. '.$r->type->capacity.' org) - '.rupiah($r->type->price_per_night * $nights),
-            ])->values();
+            ->map(function (Room $r) use ($nights, $isTransit) {
+                if ($isTransit) {
+                    $rate = match ($r->type->slug ?? '') {
+                        'standard-room-kipas' => 170000,
+                        'mezanin' => 220000,
+                        default => 200000,
+                    };
+                    $label = $r->code.' - '.$r->type->name.' (TRANSIT Day-Use) - '.rupiah($rate);
+                } else {
+                    $rate = $r->type->price_per_night * $nights;
+                    $label = $r->code.' - '.$r->type->name.' (maks. '.$r->type->capacity.' org) - '.rupiah($rate);
+                }
 
-        return response()->json(['nights' => $nights, 'rooms' => $rooms]);
+                return [
+                    'id' => $r->id,
+                    'code' => $r->code,
+                    'type' => $r->type->name,
+                    'capacity' => $r->type->capacity,
+                    'price_per_night' => $r->type->price_per_night,
+                    'total' => $rate,
+                    'is_transit' => $isTransit,
+                    'label' => $label,
+                ];
+            })->values();
+
+        return response()->json(['nights' => $nights, 'is_transit' => $isTransit, 'rooms' => $rooms]);
     }
 }

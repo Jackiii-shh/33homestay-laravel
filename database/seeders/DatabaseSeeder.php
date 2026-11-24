@@ -11,6 +11,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             RoomSeeder::class,
+            ExpenseSeeder::class,
             DemoDataSeeder::class, // hapus baris ini bila tidak ingin data contoh
         ]);
     }

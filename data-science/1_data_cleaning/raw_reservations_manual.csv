@@ -1,0 +1,177 @@
+no_reservasi,nama_pelanggan,kota_asal,kontak_hp,tipe_unit,tgl_masuk,tgl_keluar,jumlah_tamu,durasi_malam,total_biaya,uang_muka,status_reservasi,metode_pembayaran,sumber_pemesanan,catatan_lapangan
+33H-2026-001,Tika Amelia,Kota Bekasi,08183197857,Kamar AC 1,2026-08-01,2026-08-02,1,1,350000,175000,Lunas,QRIS,WhatsApp,Parkir 1 mobil
+33H-2026-002,Joko Susilo,Bogor,0813 1429 110,std ac 2,01/08/2026,04/08/2026,1,3,1050000,525000,Batal / Refund,Transfer BCA,WhatsApp,Check-in sore
+33H-2026-003,Mega Utami,JAKARTA PUSAT,08181971316,AC-3,2026-08-01,2026-08-03,2,2,700000,350000,Lunas,Cash / Tunai,Walk-in,-
+33H-2026-004,Nadia Kusuma,Tangerang,628161019678,Kipas 1,01-08-2026,04-08-2026,2,3,750000,375000,Lunas,Transfer BCA,WhatsApp,-
+33H-2026-005,rudi hartono,Tgr,0817 2043 515,Villa Tera House,01-08-2026,04-08-2026,2,3,2400000,2400000,Lunas (OTA),OTA Virtual Card,Tiket.com,Check-in sore
+33H-2026-006,Nurul Hidayah,Tangsel,0813 8538 251,Kamar AC 1,02-08-2026,03-08-2026,2,1,350000,175000,Lunas,Transfer BCA,WhatsApp,Parkir 1 mobil
+33H-2026-007,Yoga Permana,Bekasi,+62 819-4214-382,Mezzanine,02-08-2026,03-08-2026,1,1,600000,300000,Lunas,Cash / Tunai,WhatsApp,Parkir 1 mobil
+33H-2026-008,Wulan Sari,Serang,0814 9392 920,AC-1,03/08/2026,04/08/2026,1,1,350000,350000,Lunas (OTA),OTA Virtual Card,Tiket.com,Parkir 1 mobil
+33H-2026-009,ahmad fauzi,Jakarta Selatan,08175579548,AC 1,04/08/2026,06/08/2026,2,2,700000,350000,Lunas,QRIS,WhatsApp,Check-in sore
+33H-2026-010,sari indah,Cilegon,+62 818-2383-095,Villa Tera House,04/08/2026,06/08/2026,3,2,1600000,800000,DP 50%,Transfer BCA,WhatsApp,Request extra towel
+33H-2026-011,  Bagas Saputra ,jkt,08119046318,std ac 2,2026-08-05,2026-08-06,1,1,350000,175000,Lunas,Transfer BCA,WhatsApp,-
+33H-2026-012,Wulan Sari,Bandung,08197705310,AC 2,06/08/2026,07/08/2026,2,1,350000,175000,DP 50%,Transfer BCA,Walk-in,Request extra towel
+33H-2026-013,Agus Salim,bks,08183863413,Kipas,06-08-2026,07-08-2026,1,1,250000,125000,Batal / Refund,Transfer BCA,WhatsApp,Request extra towel
+33H-2026-014,Eko Prasetyo,bdg,08166-775103,Standard AC 3,07-08-2026,08-08-2026,2,1,350000,175000,Lunas,Transfer BCA,WhatsApp,Parkir 1 mobil
+33H-2026-015,  Tika Amelia ,Bandung,08117-634247,Kipas,2026-08-07,2026-08-08,1,1,250000,250000,Lunas (OTA),OTA Virtual Card,Agoda,Bawa anak kecil
+33H-2026-016,  Nadia Kusuma ,bks,08198-231132,Kamar Mezanin,07/08/2026,10/08/2026,2,3,1800000,1800000,Lunas (OTA),OTA Virtual Card,Tiket.com,Bawa anak kecil
+33H-2026-017,Maya Sari,Bekasi,08171-510041,Tera House,2026-08-07,2026-08-10,2,3,2400000,2400000,Lunas (OTA),OTA Virtual Card,Agoda,Check-in sore
+33H-2026-018,Dimas Aditya,Jakarta Selatan,08199038526,AC-2,08/08/2026,09/08/2026,1,1,350000,175000,DP 50%,Transfer BCA,WhatsApp,Tamu langganan
+33H-2026-019,Hendra Wijaya,bgr,08143704923,AC 3,08-08-2026,11-08-2026,2,3,1050000,525000,Lunas,Transfer BCA,Walk-in,Request extra towel
+33H-2026-020,Putri Ayu,Cilegon,08125015458,KPS-1,08-08-2026,10-08-2026,1,2,500000,250000,Lunas,QRIS,Walk-in,Request extra towel
+33H-2026-021,Nurul Hidayah,jkt,0815 4585 178,TH-1,10/08/2026,11/08/2026,2,1,800000,400000,DP 50%,Transfer BCA,Walk-in,Check-in sore
+33H-2026-022,Lina Marlina,Tgr,+62 811-3176-186,Kamar AC 2,11/08/2026,13/08/2026,2,2,700000,350000,Lunas,Cash / Tunai,Walk-in,Parkir 1 mobil
+33H-2026-023,Putri Ayu,Jakarta,0819 0070 438,Standard AC 1,12-08-2026,14-08-2026,2,2,700000,350000,Lunas,QRIS,WhatsApp,Parkir 1 mobil
+33H-2026-024,Lina Marlina,Kota Serang,08199038359,std kipas,12-08-2026,13-08-2026,2,1,250000,250000,Lunas (OTA),OTA Virtual Card,Tiket.com,Tamu langganan
+33H-2026-025,  Wulan Sari ,bgr,08183542887,Villa Tera House,12/08/2026,14/08/2026,2,2,1600000,800000,DP 50%,Transfer BCA,WhatsApp,Tamu langganan
+33H-2026-026,Nurul Hidayah,Depok,08148-089166,Standard AC 3,13-08-2026,15-08-2026,2,2,700000,350000,DP 50%,Transfer BCA,WhatsApp,-
+33H-2026-027,rizky maulana,Tangerang Kota,08192043803,Kipas 1,13/08/2026,14/08/2026,1,1,250000,250000,Lunas (OTA),OTA Virtual Card,Tiket.com,Request extra towel
+33H-2026-028,Dedi Kurniawan,bks,+62 813-9372-360,Mezzanine,2026-08-13,2026-08-14,2,1,600000,300000,Lunas,Transfer BCA,Walk-in,-
+33H-2026-029,Ahmad Fauzi,clg,0813 1361 812,Kamar AC 1,14/08/2026,16/08/2026,1,2,700000,350000,Lunas,QRIS,Walk-in,Request extra towel
+33H-2026-030,Joko Susilo,Serang,+62 812-8572-252,AC-2,14/08/2026,15/08/2026,1,1,350000,350000,Lunas (OTA),OTA Virtual Card,Tiket.com,Tamu langganan
+33H-2026-031,Eko Prasetyo,JAKARTA PUSAT,08174019136,std kipas,14/08/2026,16/08/2026,2,2,500000,250000,DP 50%,Transfer BCA,Walk-in,Parkir 1 mobil
+33H-2026-032,Nurul Hidayah,Tangsel,0816 8496 914,Mezanin,14/08/2026,17/08/2026,3,3,1800000,1800000,Lunas (OTA),OTA Virtual Card,Tiket.com,Request extra towel
+33H-2026-033,  Bagas Saputra ,Cilegon,+62 817-1968-116,AC 3,15/08/2026,17/08/2026,2,2,700000,350000,Lunas,Cash / Tunai,WhatsApp,Bawa anak kecil
+33H-2026-034,sari indah,Serang,08197260863,Tera House,2026-08-15,2026-08-18,2,3,2400000,1200000,DP 50%,Transfer BCA,WhatsApp,Request extra towel
+33H-2026-035,Bagas Saputra,bgr,08132-520277,AC 1,2026-08-16,2026-08-17,2,1,350000,175000,Lunas,Cash / Tunai,WhatsApp,Bawa anak kecil
+REG-36,Dewi Lestari,Kota Bekasi,628115512205,Kamar Kipas,16/08/2026,17/08/2026,2,1,250000,125000,Lunas,Cash / Tunai,WhatsApp,Bawa anak kecil
+33H-2026-037,Dimas Aditya,bgr,08142949803,Standard AC 1,18/08/2026,20/08/2026,1,2,700000,350000,Lunas,QRIS,Walk-in,Tamu langganan
+REG-38,Putri Ayu,bgr,08147-535126,std ac 2,18-08-2026,20-08-2026,1,2,700000,700000,Lunas (OTA),OTA Virtual Card,Agoda,-
+33H-2026-039,Rudi Hartono,Jakarta,+62 814-9491-631,Mezzanine,18-08-2026,20-08-2026,2,2,1200000,600000,Lunas,Cash / Tunai,WhatsApp,Parkir 1 mobil
+33H-2026-040,Lina Marlina,Bogor,+62 812-6194-158,Villa Tera House,2026-08-18,2026-08-20,2,2,1600000,800000,Lunas,Cash / Tunai,WhatsApp,Parkir 1 mobil
+33H-2026-041,bayu setiawan,Tangsel,628134084236,AC 3,19-08-2026,20-08-2026,1,1,350000,175000,Lunas,Transfer BCA,WhatsApp,-
+33H-2026-042,Bagas Saputra,Serang,628116895666,Kamar AC 1,2026-08-20,2026-08-21,1,1,350000,175000,Lunas,QRIS,WhatsApp,Check-in sore
+33H-2026-043,  Andi Pratama ,Cilegon,0818 0138 498,Kamar AC 2,20/08/2026,22/08/2026,2,2,700000,350000,Lunas,Cash / Tunai,Walk-in,Parkir 1 mobil
+33H-2026-044,Ahmad Fauzi,Bekasi,+62 814-2194-159,Standard AC 3,2026-08-20,2026-08-21,1,1,350000,175000,Lunas,QRIS,WhatsApp,Tamu langganan
+33H-2026-045,Joko Susilo,Kota Bekasi,628141329612,Kamar Kipas,20-08-2026,22-08-2026,1,2,500000,250000,Lunas,Transfer BCA,WhatsApp,Tamu langganan
+33H-2026-046,Nurul Hidayah,bgr,0812 6690 465,Villa Tera House,20-08-2026,21-08-2026,4,1,800000,400000,Lunas,Cash / Tunai,WhatsApp,Parkir 1 mobil
+33H-2026-047,Tika Amelia,Bekasi,08187-201917,AC 1,21-08-2026,23-08-2026,2,2,700000,700000,Lunas (OTA),OTA Virtual Card,Agoda,Bawa anak kecil
+33H-2026-048,Andi Pratama,Serang,628131585546,Mezzanine,21-08-2026,23-08-2026,4,2,1200000,600000,Lunas,Cash / Tunai,WhatsApp,Parkir 1 mobil
+33H-2026-049,  Hendra Wijaya ,Cilegon,08198-269682,TeraHouse,21/08/2026,22/08/2026,1,1,800000,400000,Lunas,QRIS,WhatsApp,-
+33H-2026-050,Rizky Maulana,Bandung,08113-874790,AC-2,22-08-2026,25-08-2026,1,3,1050000,525000,Lunas,QRIS,WhatsApp,Request extra towel
+33H-2026-051,Citra Dewi,bgr,0817 4759 996,TH-1,22/08/2026,23/08/2026,2,1,800000,400000,Lunas,QRIS,WhatsApp,Request extra towel
+33H-2026-052,bayu setiawan,bgr,0812 9944 139,Standard AC 3,23/08/2026,25/08/2026,2,2,700000,350000,Lunas,QRIS,WhatsApp,Tamu langganan
+33H-2026-053,Nadia Kusuma,Kota Serang,0816 1167 978,TH-1,23/08/2026,25/08/2026,1,2,1600000,800000,Lunas,QRIS,WhatsApp,Check-in sore
+REG-54,Nurul Hidayah,Cilegon,08154-099326,Kamar AC 2,25/08/2026,27/08/2026,2,2,700000,350000,Lunas,QRIS,Walk-in,-
+33H-2026-055,tika amelia,Kota Bekasi,0812 3489 853,KPS-1,25-08-2026,26-08-2026,2,1,250000,125000,Lunas,Transfer BCA,WhatsApp,Tamu langganan
+33H-2026-056,  Bagas Saputra ,Depok,0819 1804 602,TH-1,25/08/2026,27/08/2026,2,2,1600000,800000,Lunas,Cash / Tunai,WhatsApp,-
+33H-2026-057,Dedi Kurniawan,bks,08156-381032,Standard AC 1,26-08-2026,28-08-2026,2,2,700000,700000,Lunas (OTA),OTA Virtual Card,Tiket.com,Request extra towel
+33H-2026-058,Bagas Saputra,Bogor,0819 8346 110,std kipas,2026-08-26,2026-08-28,1,2,500000,500000,Lunas (OTA),OTA Virtual Card,Agoda,Tamu langganan
+33H-2026-059,rudi hartono,Bandung,628187789079,AC-1,2026-08-28,2026-08-31,2,3,1050000,525000,DP 50%,Transfer BCA,WhatsApp,Request extra towel
+33H-2026-060,  Anisa Rahmawati ,bdg,08155461591,Kipas 1,2026-08-28,2026-08-31,1,3,750000,375000,Batal / Refund,Transfer BCA,Walk-in,-
+33H-2026-061,Mega Utami,Cilegon,08145-495029,Mezanin,28/08/2026,30/08/2026,3,2,1200000,1200000,Lunas (OTA),OTA Virtual Card,Tiket.com,Bawa anak kecil
+33H-2026-062,citra dewi,Serang,08196926431,Kamar AC 2,29-08-2026,30-08-2026,2,1,350000,350000,Lunas (OTA),OTA Virtual Card,Tiket.com,Check-in sore
+33H-2026-063,dewi lestari,depok,628170887034,Standard AC 3,29-08-2026,31-08-2026,2,2,700000,700000,Lunas (OTA),OTA Virtual Card,Agoda,Bawa anak kecil
+33H-2026-064,Fajar Nugroho,Serang,08159-302863,Villa Tera House,2026-08-29,2026-08-31,4,2,1600000,800000,Lunas,Transfer BCA,WhatsApp,Bawa anak kecil
+33H-2026-065,  Nurul Hidayah ,Tgr,628141272553,MZN-1,30-08-2026,31-08-2026,1,1,600000,300000,DP 50%,Transfer BCA,WhatsApp,Request extra towel
+33H-2026-066,rizky maulana,Tangsel,+62 811-2118-101,std ac 2,2026-08-31,2026-09-01,1,1,350000,350000,Lunas (OTA),OTA Virtual Card,Tiket.com,Check-in sore
+33H-2026-067,intan permata,bgr,08196347724,Tera House,31/08/2026,01/09/2026,4,1,800000,400000,Lunas,Cash / Tunai,WhatsApp,Bawa anak kecil
+33H-2026-068,  Hendra Wijaya ,bgr,08161-124122,Standard AC 1,01/09/2026,02/09/2026,2,1,350000,175000,DP 50%,Transfer BCA,WhatsApp,-
+33H-2026-069,Dedi Kurniawan,bdg,08165833185,Kamar Mezanin,01/09/2026,03/09/2026,3,2,1200000,1200000,Lunas (OTA),OTA Virtual Card,Tiket.com,-
+33H-2026-070,Andi Pratama,Serang,08184674816,Standard AC 1,02-09-2026,03-09-2026,1,1,350000,175000,Lunas,QRIS,WhatsApp,Bawa anak kecil
+33H-2026-071,Nadia Kusuma,Serang,08147-388792,AC-2,03/09/2026,05/09/2026,1,2,700000,700000,Lunas (OTA),OTA Virtual Card,Agoda,Tamu langganan
+33H-2026-072,Joko Susilo,Serang,+62 813-4347-841,Standard AC 3,03-09-2026,05-09-2026,2,2,700000,350000,Lunas,QRIS,WhatsApp,Check-in sore
+33H-2026-073,Dimas Aditya,Serang,+62 811-7061-037,MZN-1,03-09-2026,05-09-2026,1,2,1200000,1200000,Lunas (OTA),OTA Virtual Card,Tiket.com,Bawa anak kecil
+REG-74,  Fajar Nugroho ,Cilegon,08148-016697,Kamar AC 1,04-09-2026,06-09-2026,2,2,700000,350000,Lunas,QRIS,WhatsApp,Request extra towel
+33H-2026-075,rina wulandari,Cilegon,08177-144075,Villa Tera House,2026-09-04,2026-09-07,4,3,2400000,1200000,DP 50%,Transfer BCA,Walk-in,Bawa anak kecil
+REG-76,Eko Prasetyo,bks,628112799319,AC 3,05-09-2026,08-09-2026,2,3,1050000,525000,Lunas,Cash / Tunai,Walk-in,Check-in sore
+33H-2026-077,Eko Prasetyo,bgr,628139738898,KPS-1,2026-09-05,2026-09-08,1,3,750000,750000,Lunas (OTA),OTA Virtual Card,Agoda,Tamu langganan
+REG-78,bayu setiawan,Bekasi,+62 814-4355-473,MZN-1,05-09-2026,08-09-2026,2,3,1800000,900000,DP 50%,Transfer BCA,Walk-in,-
+33H-2026-079,dimas aditya,Kota Serang,08120298660,Standard AC 3,08-09-2026,10-09-2026,2,2,700000,350000,Lunas,QRIS,WhatsApp,Bawa anak kecil
+33H-2026-080,yoga permana,JAKARTA PUSAT,628123891786,Tera House,08-09-2026,10-09-2026,2,2,1600000,800000,Lunas,Cash / Tunai,WhatsApp,Parkir 1 mobil
+33H-2026-081,Anisa Rahmawati,Serang,628194676162,AC 2,09/09/2026,11/09/2026,1,2,700000,700000,Lunas (OTA),OTA Virtual Card,Agoda,-
+33H-2026-082,Rizky Maulana,bgr,628196368203,AC 3,10-09-2026,12-09-2026,1,2,700000,700000,Lunas (OTA),OTA Virtual Card,Tiket.com,Check-in sore
+33H-2026-083,Hendra Wijaya,Tgr,08130796389,Kamar Mezanin,2026-09-10,2026-09-11,1,1,600000,600000,Lunas (OTA),OTA Virtual Card,Tiket.com,Request extra towel
+33H-2026-084,Bayu Setiawan,depok,0811 5864 298,Standard AC 1,11-09-2026,12-09-2026,1,1,350000,175000,Lunas,QRIS,WhatsApp,Request extra towel
+33H-2026-085,Nurul Hidayah,Tangsel,0818 6560 394,Kamar AC 2,11/09/2026,13/09/2026,2,2,700000,700000,Lunas (OTA),OTA Virtual Card,Agoda,Request extra towel
+33H-2026-086,Siti Rahma,Kota Bekasi,08179244185,std kipas,2026-09-11,2026-09-13,1,2,500000,250000,Lunas,QRIS,WhatsApp,Bawa anak kecil
+33H-2026-087,Bayu Setiawan,JAKARTA PUSAT,0811 7148 018,Kamar Mezanin,2026-09-11,2026-09-12,4,1,600000,300000,Lunas,Transfer BCA,WhatsApp,Check-in sore
+33H-2026-088,rizky maulana,Bandung,0817 2962 895,AC 1,2026-09-12,2026-09-13,1,1,350000,175000,Lunas,Transfer BCA,WhatsApp,-
+33H-2026-089,  Nadia Kusuma ,clg,08118429833,AC-3,12-09-2026,14-09-2026,1,2,700000,700000,Lunas (OTA),OTA Virtual Card,Tiket.com,Request extra towel
+33H-2026-090,Bagas Saputra,Kota Bekasi,08158399417,Mezanin,12/09/2026,13/09/2026,4,1,600000,300000,Lunas,Cash / Tunai,WhatsApp,Check-in sore
+33H-2026-091,Lina Marlina,Kota Bekasi,+62 815-4629-892,Tera House,12/09/2026,13/09/2026,3,1,800000,400000,Lunas,QRIS,Walk-in,-
+33H-2026-092,Andi Pratama,Jakarta Selatan,08137057085,AC-2,2026-09-13,2026-09-14,2,1,350000,175000,Lunas,QRIS,WhatsApp,Check-in sore
+33H-2026-093,Mega Utami,Kota Serang,628126706752,Kipas 1,13/09/2026,15/09/2026,2,2,500000,250000,Lunas,Transfer BCA,WhatsApp,Bawa anak kecil
+33H-2026-094,Tika Amelia,depok,08153112268,AC 1,14/09/2026,15/09/2026,2,1,350000,175000,Lunas,QRIS,WhatsApp,-
+33H-2026-095,Lina Marlina,Depok,08129-163535,Kipas 1,2026-09-15,2026-09-17,1,2,500000,250000,Lunas,QRIS,WhatsApp,Bawa anak kecil
+33H-2026-096,Wulan Sari,Bandung,+62 818-7030-477,Villa Tera House,15/09/2026,16/09/2026,3,1,800000,800000,Lunas (OTA),OTA Virtual Card,Tiket.com,Check-in sore
+33H-2026-097,Joko Susilo,bgr,08136867482,MZN-1,2026-09-16,2026-09-18,4,2,1200000,600000,DP 50%,Transfer BCA,WhatsApp,Check-in sore
+REG-98,mega utami,depok,+62 817-8284-040,Tera House,2026-09-17,2026-09-19,2,2,1600000,800000,DP 50%,Transfer BCA,WhatsApp,Parkir 1 mobil
+REG-99,  Nurul Hidayah ,Bekasi,0815 1512 297,Kamar AC 1,18-09-2026,20-09-2026,2,2,700000,350000,Lunas,QRIS,Walk-in,Tamu langganan
+33H-2026-100,Dimas Aditya,Depok,08168-065043,AC 2,2026-09-18,2026-09-20,1,2,700000,350000,Lunas,Cash / Tunai,WhatsApp,Request extra towel
+33H-2026-101,  Dedi Kurniawan ,Tangsel,628126800072,Standard AC 3,18-09-2026,21-09-2026,1,3,1050000,1050000,Lunas (OTA),OTA Virtual Card,Agoda,Parkir 1 mobil
+33H-2026-102,Intan Permata,Jakarta,08120901547,Kamar Kipas,18/09/2026,21/09/2026,1,3,750000,375000,Lunas,QRIS,Walk-in,Bawa anak kecil
+33H-2026-103,Citra Dewi,depok,628152857920,Mezzanine,2026-09-19,2026-09-21,3,2,1200000,1200000,Lunas (OTA),OTA Virtual Card,Agoda,Bawa anak kecil
+33H-2026-104,nadia kusuma,Jakarta Selatan,08161-559717,TeraHouse,2026-09-19,2026-09-21,2,2,1600000,800000,Lunas,QRIS,Walk-in,Request extra towel
+33H-2026-105,siti rahma,bdg,08148-352498,AC 3,2026-09-21,2026-09-23,2,2,700000,350000,DP 50%,Transfer BCA,WhatsApp,Bawa anak kecil
+33H-2026-106,Andi Pratama,Bogor,08127268907,Kamar AC 1,22/09/2026,24/09/2026,2,2,700000,700000,Lunas (OTA),OTA Virtual Card,Agoda,Request extra towel
+33H-2026-107,Rizky Maulana,Bandung,08191-370909,KPS-1,22/09/2026,23/09/2026,2,1,250000,125000,Lunas,QRIS,WhatsApp,Tamu langganan
+33H-2026-108,wulan sari,clg,08194457912,Mezzanine,23/09/2026,25/09/2026,2,2,1200000,1200000,Lunas (OTA),OTA Virtual Card,Tiket.com,Parkir 1 mobil
+33H-2026-109,Siti Rahma,Tangerang,628169195194,AC-3,2026-09-24,2026-09-25,2,1,350000,350000,Lunas (OTA),OTA Virtual Card,Tiket.com,Parkir 1 mobil
+33H-2026-110,Yoga Permana,bdg,+62 815-2111-160,Kamar AC 1,25-09-2026,26-09-2026,2,1,350000,350000,Lunas (OTA),OTA Virtual Card,Agoda,-
+33H-2026-111,  Agus Salim ,Tangsel,628184905122,AC-2,25/09/2026,28/09/2026,2,3,1050000,1050000,Lunas (OTA),OTA Virtual Card,Tiket.com,Tamu langganan
+33H-2026-112,Anisa Rahmawati,Bogor,08186-970753,AC-3,25/09/2026,28/09/2026,2,3,1050000,525000,DP 50%,Transfer BCA,Walk-in,Tamu langganan
+33H-2026-113,Rudi Hartono,Tangsel,628185432781,MZN-1,2026-09-25,2026-09-27,2,2,1200000,600000,Lunas,QRIS,WhatsApp,Request extra towel
+33H-2026-114,  Hendra Wijaya ,Depok,+62 818-3867-070,TeraHouse,25-09-2026,27-09-2026,4,2,1600000,800000,Lunas,Cash / Tunai,WhatsApp,-
+33H-2026-115,Rudi Hartono,jkt,+62 816-6087-572,AC 1,26/09/2026,27/09/2026,2,1,350000,175000,Batal / Refund,Transfer BCA,WhatsApp,Tamu langganan
+33H-2026-116,Maya Sari,Bandung,0817 7674 279,std kipas,2026-09-26,2026-09-28,1,2,500000,250000,Lunas,Cash / Tunai,WhatsApp,-
+33H-2026-117,Putri Ayu,Tangerang,0814 5002 007,TH-1,27/09/2026,28/09/2026,3,1,800000,400000,Lunas,QRIS,WhatsApp,Tamu langganan
+33H-2026-118,Dimas Aditya,Bogor,628195726382,AC-3,28-09-2026,29-09-2026,1,1,350000,175000,Batal / Refund,Transfer BCA,WhatsApp,Bawa anak kecil
+33H-2026-119,Wulan Sari,Kota Bekasi,08169-961498,Kamar Mezanin,2026-09-29,2026-09-30,1,1,600000,300000,DP 50%,Transfer BCA,WhatsApp,Request extra towel
+33H-2026-120,  Mega Utami ,Tangerang Kota,08122-205980,Kamar AC 1,2026-09-30,2026-10-02,2,2,700000,350000,Lunas,Cash / Tunai,WhatsApp,Parkir 1 mobil
+33H-2026-121,joko susilo,Jakarta,08173360324,AC-3,01/10/2026,03/10/2026,1,2,700000,350000,Lunas,QRIS,Walk-in,-
+33H-2026-122,eko prasetyo,depok,+62 812-5922-674,Kamar AC 1,02-10-2026,04-10-2026,1,2,700000,700000,Lunas (OTA),OTA Virtual Card,Tiket.com,Check-in sore
+33H-2026-123,Eko Prasetyo,Serang,+62 814-6997-080,Kipas,2026-10-02,2026-10-05,2,3,750000,750000,Lunas (OTA),OTA Virtual Card,Agoda,Check-in sore
+REG-124,Dewi Lestari,jkt,0811 5937 353,Mezzanine,2026-10-02,2026-10-03,2,1,600000,300000,DP 50%,Transfer BCA,Walk-in,Parkir 1 mobil
+33H-2026-125,Intan Permata,Tangsel,08129-228089,AC-2,03/10/2026,06/10/2026,2,3,1050000,525000,Lunas,QRIS,WhatsApp,Request extra towel
+33H-2026-126,Sari Indah,clg,0816 5878 146,AC 3,03/10/2026,05/10/2026,2,2,700000,350000,DP 50%,Transfer BCA,WhatsApp,Request extra towel
+REG-127,anisa rahmawati,clg,08184-797762,MZN-1,03/10/2026,05/10/2026,2,2,1200000,600000,Lunas,QRIS,WhatsApp,Bawa anak kecil
+33H-2026-128,Siti Rahma,Jakarta,08135-254849,AC-1,04/10/2026,05/10/2026,1,1,350000,175000,Batal / Refund,Transfer BCA,Walk-in,Check-in sore
+33H-2026-129,Ahmad Fauzi,Kota Serang,628145106207,Standard AC 3,05/10/2026,07/10/2026,2,2,700000,350000,DP 50%,Transfer BCA,WhatsApp,Tamu langganan
+33H-2026-130,Budi Santoso,clg,+62 813-0456-313,std ac 2,2026-10-06,2026-10-07,2,1,350000,350000,Lunas (OTA),OTA Virtual Card,Agoda,-
+33H-2026-131,Tika Amelia,depok,+62 813-2718-459,Kamar Kipas,06/10/2026,08/10/2026,1,2,500000,500000,Lunas (OTA),OTA Virtual Card,Agoda,Parkir 1 mobil
+33H-2026-132,Bayu Setiawan,Cilegon,+62 819-4651-342,Mezanin,06-10-2026,07-10-2026,2,1,600000,300000,Lunas,Cash / Tunai,WhatsApp,Parkir 1 mobil
+33H-2026-133,  Sari Indah ,Cilegon,08124363501,MZN-1,2026-10-07,2026-10-09,2,2,1200000,1200000,Lunas (OTA),OTA Virtual Card,Agoda,Tamu langganan
+33H-2026-134,Dimas Aditya,Tangsel,08120820219,AC 1,08/10/2026,10/10/2026,2,2,700000,350000,Lunas,Transfer BCA,WhatsApp,-
+33H-2026-135,Mega Utami,Kota Bekasi,+62 811-5711-200,AC-2,08-10-2026,10-10-2026,2,2,700000,350000,Lunas,Transfer BCA,WhatsApp,Tamu langganan
+33H-2026-136,bagas saputra,Cilegon,+62 815-0168-264,TH-1,08-10-2026,09-10-2026,4,1,800000,800000,Lunas (OTA),OTA Virtual Card,Tiket.com,-
+33H-2026-137,siti rahma,Tangerang,08155-713584,Standard AC 3,09-10-2026,11-10-2026,2,2,700000,350000,Lunas,QRIS,Walk-in,Bawa anak kecil
+33H-2026-138,Sari Indah,Cilegon,628193029219,KPS-1,09-10-2026,11-10-2026,1,2,500000,250000,Lunas,Cash / Tunai,WhatsApp,-
+33H-2026-139,  Hendra Wijaya ,bgr,628158307308,Mezanin,2026-10-09,2026-10-11,1,2,1200000,600000,Lunas,QRIS,WhatsApp,Bawa anak kecil
+33H-2026-140,Lina Marlina,Kota Serang,628111656329,TeraHouse,09/10/2026,10/10/2026,1,1,800000,800000,Lunas (OTA),OTA Virtual Card,Tiket.com,Request extra towel
+33H-2026-141,  Wulan Sari ,bgr,+62 817-6185-975,AC 1,2026-10-10,2026-10-11,2,1,350000,175000,Lunas,Cash / Tunai,WhatsApp,Tamu langganan
+33H-2026-142,Tika Amelia,Tangerang Kota,+62 812-4357-588,std ac 2,2026-10-10,2026-10-11,2,1,350000,175000,DP 50%,Transfer BCA,WhatsApp,Tamu langganan
+33H-2026-143,Intan Permata,Serang,628163450811,Standard AC 1,11-10-2026,13-10-2026,2,2,700000,700000,Lunas (OTA),OTA Virtual Card,Agoda,Tamu langganan
+33H-2026-144,  Bagas Saputra ,JAKARTA PUSAT,0813 8138 531,std kipas,11-10-2026,12-10-2026,1,1,250000,125000,DP 50%,Transfer BCA,Walk-in,-
+33H-2026-145,Bagas Saputra,Cilegon,08158-255231,Kamar Kipas,12-10-2026,14-10-2026,1,2,500000,250000,DP 50%,Transfer BCA,WhatsApp,Tamu langganan
+33H-2026-146,Bagas Saputra,clg,08167774765,Mezanin,2026-10-12,2026-10-13,3,1,600000,300000,Lunas,QRIS,WhatsApp,-
+33H-2026-147,citra dewi,Cilegon,+62 812-5578-562,Villa Tera House,13/10/2026,14/10/2026,3,1,800000,400000,DP 50%,Transfer BCA,WhatsApp,Tamu langganan
+33H-2026-148,  Siti Rahma ,Serang,+62 813-2059-232,Kamar Kipas,2026-10-14,2026-10-16,1,2,500000,250000,Lunas,Cash / Tunai,WhatsApp,Bawa anak kecil
+33H-2026-149,eko prasetyo,Tangerang Kota,0818 9484 162,TeraHouse,2026-10-14,2026-10-16,2,2,1600000,800000,Lunas,QRIS,WhatsApp,Check-in sore
+33H-2026-150,Agus Salim,Kota Serang,0819 2048 427,Mezanin,15/10/2026,16/10/2026,3,1,600000,300000,Lunas,Transfer BCA,Walk-in,-
+33H-2026-151,Rizky Maulana,Bekasi,+62 816-0104-292,Kamar AC 2,16/10/2026,19/10/2026,1,3,1050000,1050000,Lunas (OTA),OTA Virtual Card,Agoda,-
+33H-2026-152,Anisa Rahmawati,bdg,+62 812-8830-282,AC-3,16/10/2026,19/10/2026,1,3,1050000,525000,Lunas,Transfer BCA,Walk-in,Request extra towel
+33H-2026-153,Rina Wulandari,bdg,08132448383,Tera House,2026-10-16,2026-10-18,3,2,1600000,800000,Lunas,QRIS,WhatsApp,Bawa anak kecil
+33H-2026-154,Sari Indah,bgr,08182751830,Kamar AC 1,17-10-2026,19-10-2026,1,2,700000,350000,Lunas,QRIS,WhatsApp,Tamu langganan
+33H-2026-155,  Dimas Aditya ,Tgr,628188909809,Kamar Kipas,17-10-2026,18-10-2026,2,1,250000,125000,Lunas,Transfer BCA,WhatsApp,Check-in sore
+33H-2026-156,  Agus Salim ,bgr,628186871268,Mezanin,2026-10-17,2026-10-20,4,3,1800000,900000,Batal / Refund,Transfer BCA,WhatsApp,Request extra towel
+REG-157,Eko Prasetyo,bks,628179204468,Standard AC 1,19/10/2026,21/10/2026,2,2,700000,350000,Lunas,QRIS,WhatsApp,Bawa anak kecil
+33H-2026-158,  Hendra Wijaya ,bdg,08116497381,Kipas,20-10-2026,22-10-2026,2,2,500000,250000,Lunas,Transfer BCA,WhatsApp,Check-in sore
+33H-2026-159,agus salim,Depok,628163196064,MZN-1,21/10/2026,23/10/2026,1,2,1200000,1200000,Lunas (OTA),OTA Virtual Card,Tiket.com,Check-in sore
+33H-2026-160,  Yoga Permana ,Serang,+62 816-6682-016,TeraHouse,2026-10-21,2026-10-22,2,1,800000,400000,Lunas,Transfer BCA,WhatsApp,Tamu langganan
+33H-2026-161,  Rudi Hartono ,jkt,628169069144,AC-2,22-10-2026,23-10-2026,1,1,350000,175000,Lunas,Cash / Tunai,WhatsApp,Check-in sore
+33H-2026-162,Bagas Saputra,clg,+62 812-8767-690,std kipas,22-10-2026,23-10-2026,1,1,250000,125000,Lunas,QRIS,WhatsApp,Tamu langganan
+33H-2026-163,Fajar Nugroho,clg,08196727439,AC-2,23/10/2026,25/10/2026,2,2,700000,350000,Lunas,QRIS,WhatsApp,Parkir 1 mobil
+33H-2026-164,Anisa Rahmawati,clg,+62 818-3330-690,Kipas 1,2026-10-23,2026-10-25,1,2,500000,500000,Lunas (OTA),OTA Virtual Card,Agoda,Check-in sore
+33H-2026-165,Rudi Hartono,clg,08121-063273,AC-1,24/10/2026,26/10/2026,1,2,700000,350000,Lunas,Transfer BCA,WhatsApp,Request extra towel
+33H-2026-166,Wulan Sari,Cilegon,+62 811-7772-004,AC 3,24/10/2026,27/10/2026,1,3,1050000,525000,Lunas,Transfer BCA,WhatsApp,-
+33H-2026-167,  Rizky Maulana ,Kota Serang,628132409388,MZN-1,24-10-2026,27-10-2026,3,3,1800000,1800000,Lunas (OTA),OTA Virtual Card,Tiket.com,Check-in sore
+33H-2026-168,Agus Salim,bks,08171-095611,Villa Tera House,2026-10-24,2026-10-26,4,2,1600000,800000,Lunas,Cash / Tunai,Walk-in,Check-in sore
+33H-2026-169,nadia kusuma,Kota Serang,+62 813-0144-023,Kipas,25-10-2026,26-10-2026,2,1,250000,125000,Lunas,Cash / Tunai,WhatsApp,Tamu langganan
+33H-2026-170,Putri Ayu,JAKARTA PUSAT,0811 9251 149,Standard AC 1,26/10/2026,27/10/2026,2,1,350000,175000,Lunas,Transfer BCA,WhatsApp,Tamu langganan
+33H-2026-171,rizky maulana,Cilegon,08141-272427,std ac 2,27-10-2026,28-10-2026,1,1,350000,175000,Lunas,QRIS,WhatsApp,-
+33H-2026-172,  Rina Wulandari ,depok,08122485824,KPS-1,27-10-2026,28-10-2026,2,1,250000,250000,Lunas (OTA),OTA Virtual Card,Tiket.com,-
+33H-2026-173,yoga permana,Cilegon,08189-442904,Mezanin,27/10/2026,28/10/2026,2,1,600000,300000,Lunas,Cash / Tunai,WhatsApp,Bawa anak kecil
+33H-2026-174,nadia kusuma,Tgr,08188478184,AC-2,2026-10-28,2026-10-30,1,2,700000,350000,Lunas,Cash / Tunai,WhatsApp,Tamu langganan
+33H-2026-175,  Dimas Aditya ,depok,08190973889,KPS-1,28/10/2026,30/10/2026,1,2,500000,250000,DP 50%,Transfer BCA,WhatsApp,Bawa anak kecil
+33H-2026-176,Budi Santoso,Tangerang,08172014395,AC-1,2026-10-29,2026-10-30,1,1,350000,175000,DP 50%,Transfer BCA,WhatsApp,Request extra towel

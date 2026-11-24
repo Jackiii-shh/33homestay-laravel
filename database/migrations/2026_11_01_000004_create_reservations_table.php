@@ -26,8 +26,12 @@ return new class extends Migration
 
             // pending_dp | confirmed | checked_in | checked_out | cancelled | no_show
             $table->string('status', 20)->default('pending_dp');
-            // whatsapp | agoda | tiketcom | walk_in
+            // whatsapp | agoda | tiketcom | traveloka | walk_in
             $table->string('channel', 20)->default('whatsapp');
+            // harian | transit (sewa jam-jaman hari yang sama)
+            $table->string('rental_type', 20)->default('harian');
+            // uang_di_pengelola | disetor_owner | settled
+            $table->string('cash_flow_status', 30)->default('settled');
 
             $table->dateTime('dp_deadline')->nullable();
             $table->dateTime('ota_blocked_at')->nullable();

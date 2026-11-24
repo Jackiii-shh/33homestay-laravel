@@ -34,8 +34,23 @@ class AvailabilityService
     {
         return Reservation::query()
             ->whereIn('status', Reservation::ACTIVE_STATUSES)
-            ->where('check_in', '<', $out)
-            ->where('check_out', '>', $in)
+            ->where(function (Builder $q) use ($in, $out) {
+                if ($in === $out) {
+                    // Kasus cek sewa Transit di hari yang sama:
+                    $q->where(function ($sub) use ($in) {
+                        $sub->where('rental_type', 'transit')->whereDate('check_in', $in);
+                    })->orWhere(function ($sub) use ($in) {
+                        $sub->where('rental_type', '!=', 'transit')->whereDate('check_in', '<=', $in)->whereDate('check_out', '>', $in);
+                    });
+                } else {
+                    // Kasus sewa Harian:
+                    $q->where(function ($sub) use ($in, $out) {
+                        $sub->where('rental_type', 'transit')->whereDate('check_in', '>=', $in)->whereDate('check_in', '<', $out);
+                    })->orWhere(function ($sub) use ($in, $out) {
+                        $sub->whereDate('check_in', '<', $out)->whereDate('check_out', '>', $in);
+                    });
+                }
+            })
             ->when($ignoreReservationId, fn (Builder $q) => $q->where('id', '!=', $ignoreReservationId));
     }
 
