@@ -103,11 +103,14 @@ class DataQualityChecker:
         self.log("Consistency", "Nilai total harga terverifikasi positif dan bernilai valid", price_positive)
 
         # 5. REFERENTIAL INTEGRITY
+        # 'Unassigned' adalah hasil imputasi Rule-Based untuk 334 baris yang tidak mencatat kamar di buku kas
+        VALID_ROOM_CODES = set(VALID_ROOMS.keys()) | {"Unassigned"}
         assigned_rooms = self.df["room_code"].fillna("").astype(str).str.strip()
         assigned_mask = assigned_rooms != ""
-        assigned_valid = assigned_rooms[assigned_mask].isin(VALID_ROOMS.keys()).all()
-        unassigned_count = (~assigned_mask).sum()
-        self.log("Integrity", "Kode unit kamar yang tercatat 100% valid dalam inventaris fisik (K1-K5)", assigned_valid, f"{len(assigned_rooms[assigned_mask])} tercatat unit valid, {unassigned_count} baris tanpa pencatatan unit di buku kas")
+        assigned_valid = assigned_rooms[assigned_mask].isin(VALID_ROOM_CODES).all()
+        unassigned_count = int((assigned_rooms == "Unassigned").sum())
+        known_room_count = int(assigned_rooms.isin(VALID_ROOMS.keys()).sum())
+        self.log("Integrity", "Kode unit kamar yang tercatat 100% valid dalam inventaris fisik (K1-K5 + Unassigned)", assigned_valid, f"{known_room_count} tercatat unit spesifik (K1-K5), {unassigned_count} baris kamar tidak dicatat di buku kas (diimputasi sebagai 'Unassigned')")
 
         rate_mismatch = 0
         for idx, row in self.df[assigned_mask].iterrows():
@@ -118,9 +121,17 @@ class DataQualityChecker:
                     rate_mismatch += 1
         self.log("Integrity", "Tarif dasar kamar per malam pada sewa harian sesuai master tarif", rate_mismatch == 0, f"Selisih tarif: {rate_mismatch}")
 
+        # Tambahan: Cek Imputasi (Tidak ada nilai '-' atau kosong, dan guest_phone termasking)
+        no_dash = not (self.df.astype(str).eq("-").any().any())
+        self.log("Completeness", "Tidak ada nilai '-' atau placeholder kosong pasca-imputasi", no_dash)
+
+        phone_masked = (self.df["guest_phone"].astype(str) == "08XXXXXXXXXX").all()
+        self.log("Validity", "Seluruh nomor HP tamu termasking aman (08XXXXXXXXXX)", phone_masked)
+
         # 6. COLLISION & CONFLICT AUDIT
-        # Audit tumpang tindih tanggal pada reservasi harian yang memiliki unit tercatat
-        daily_assigned = self.df[(self.df["status"] != "CANCELLED") & (self.df["rental_type"] == "daily") & assigned_mask].copy()
+        # Audit tumpang tindih tanggal pada reservasi harian yang memiliki unit fisik tercatat (K1-K5)
+        physical_room_mask = assigned_rooms.isin(VALID_ROOMS.keys())
+        daily_assigned = self.df[(self.df["status"] != "CANCELLED") & (self.df["rental_type"] == "daily") & physical_room_mask].copy()
         daily_assigned["dt_in"] = pd.to_datetime(daily_assigned["check_in"])
         daily_assigned["dt_out"] = pd.to_datetime(daily_assigned["check_out"])
 
