@@ -21,7 +21,7 @@ DS_DIR = os.path.join(CURRENT_DIR, "..")
 
 # Ringkasan Laporan P&L Bulanan Aktual dari Lembar Kas Owner
 monthly_pnl_data = [
-    {"bulan": "2026-01", "nama_bulan": "Januari", "omzet": 26392000, "biaya_tetap": 3108000, "biaya_variabel": 4397000, "total_biaya": 7505000, "profit_bersih": 26392000, "kamar_terfavorit": "K2", "kota_terbanyak": "Serang"},
+    {"bulan": "2026-01", "nama_bulan": "Januari", "omzet": 26392000, "biaya_tetap": 3108000, "biaya_variabel": 4397000, "total_biaya": 7505000, "profit_bersih": 18887000, "kamar_terfavorit": "K2", "kota_terbanyak": "Serang"},
     {"bulan": "2026-02", "nama_bulan": "Februari", "omzet": 19461000, "biaya_tetap": 1808000, "biaya_variabel": 325000, "total_biaya": 2133000, "profit_bersih": 17328000, "kamar_terfavorit": "K2", "kota_terbanyak": "Serang"},
     {"bulan": "2026-03", "nama_bulan": "Maret", "omzet": 33700000, "biaya_tetap": 2558000, "biaya_variabel": 1837000, "total_biaya": 4395000, "profit_bersih": 29305000, "kamar_terfavorit": "K1", "kota_terbanyak": "Serang"},
     {"bulan": "2026-04", "nama_bulan": "April", "omzet": 30280000, "biaya_tetap": 2558000, "biaya_variabel": 701000, "total_biaya": 3259000, "profit_bersih": 27021000, "kamar_terfavorit": "K2", "kota_terbanyak": "Tangerang"},

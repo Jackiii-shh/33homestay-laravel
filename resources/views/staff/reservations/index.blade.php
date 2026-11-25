@@ -42,7 +42,7 @@
                 <tr class="hover:bg-slate-50">
                     <td class="whitespace-nowrap px-4 py-3 font-mono text-xs font-semibold">{{ $r->code }}</td>
                     <td class="px-4 py-3"><p class="font-semibold text-slate-900">{{ $r->guest_name }}</p><p class="text-xs text-slate-400">{{ $r->guest_city }}</p></td>
-                    <td class="whitespace-nowrap px-4 py-3">{{ $r->room->code }}<p class="text-xs text-slate-400">{{ $r->room->type->name }}</p></td>
+                    <td class="whitespace-nowrap px-4 py-3">{{ $r->room?->code ?? '—' }}<p class="text-xs text-slate-400">{{ $r->room?->type?->name ?? 'Belum ditentukan' }}</p></td>
                     <td class="whitespace-nowrap px-4 py-3">
                         {{ $r->check_in->translatedFormat('d M Y') }}
                         @if ($r->rental_type === 'transit' || $r->check_in->isSameDay($r->check_out))

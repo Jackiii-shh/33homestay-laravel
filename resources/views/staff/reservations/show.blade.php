@@ -37,7 +37,7 @@
                     'Tamu' => $r->guest_name,
                     'Asal kota' => $r->guest_city ?: '-',
                     'Jumlah tamu' => $r->guest_count.' orang',
-                    'Kamar' => $r->room->code.' - '.$r->room->type->name,
+                    'Kamar' => $r->room ? ($r->room->code.' - '.$r->room->type->name) : 'Belum ditentukan',
                     'Check-in' => $r->check_in->translatedFormat('l, d F Y'),
                     'Check-out' => $r->check_out->translatedFormat('l, d F Y'),
                     'Durasi' => $r->nights.' malam × '.rupiah($r->price_per_night),

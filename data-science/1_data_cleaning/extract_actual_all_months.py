@@ -3,20 +3,23 @@ Ekstraksi Data Riil Seluruh 11 Bulan Buku Tamu 33HomeStay (Januari - November 20
 Penanggung Jawab: Dzakwan Muzakki (Data Science - DS014B6Y0494)
 Capstone Project: A26-CS026
 
-Sumber Data: File PDF Aktual Buku Tamu Owner (Data_tamu_capstone.pdf)
-Kamar Aktual:
-- K1 : Standard Room AC (Rp 300.000)
-- K2 : Standard Room AC (Rp 300.000)
-- K3 : Mezanin (Rp 350.000)
-- K4 : Standard Room Kipas (Rp 200.000)
-- K5 : Standard Room AC (Rp 300.000)
-- TH-1 : Tera House (Rp 800.000)
+Pembaruan Rekonsiliasi:
+1. Memisahkan secara fisik tabel reservasi tamu (di atas batas subtotal) dan tabel pengeluaran operasional (di bawah batas subtotal).
+2. Tabel kanan adalah lanjutan dari tabel kiri, BUKAN otomatis K4.
+3. K4 hanya dicatat bila tertulis eksplisit di rekap (5 transaksi aktual).
+4. Baris tanpa pencatatan kamar dipertahankan (room_code="") tanpa menebak kamar.
+5. Menghilangkan kolom buatan:
+   - Tidak ada fabrikasi nomor HP 12 digit (disensor/dikosongkan).
+   - Tidak ada fabrikasi kota asal untuk Januari-Juni (hanya diisi bila ada di kolom ALAMAT).
+   - Tidak ada fabrikasi kanal (hanya ditandai OTA bila kolom OTA terisi, selain itu Direct).
+   - Tidak ada fabrikasi metode bayar (Transfer BCA).
+   - Tidak ada fabrikasi DP 50% (DP diisi 0).
+6. Nama tamu disensor/dianonimkan sesuai izin Owner (Tamu-XXXX) untuk perlindungan privasi di repositori publik.
 """
 
 import os
 import re
 import zlib
-import random
 from collections import defaultdict
 from datetime import datetime
 import pandas as pd
@@ -86,101 +89,48 @@ def decode_pdf_string(raw_bytes, font_name):
     b = bytes(unescaped)
     return "".join(cmap.get((b[j] << 8) | b[j+1], "") for j in range(0, len(b) - 1, 2))
 
-# Metadata kamar
-ROOM_INFO = {
-    "K1": {"type": "Standard Room AC", "rate": 300000, "cap": 2},
-    "K2": {"type": "Standard Room AC", "rate": 300000, "cap": 2},
-    "K3": {"type": "Mezanin", "rate": 350000, "cap": 4},
-    "K4": {"type": "Standard Room Kipas", "rate": 200000, "cap": 2},
-    "K5": {"type": "Standard Room AC", "rate": 300000, "cap": 2},
-    "TH-1": {"type": "Tera House", "rate": 800000, "cap": 4},
+# Informasi Tipe Kamar
+ROOM_TYPES = {
+    "K1": {"name": "Standard Room AC", "rate": 300000, "cap": 2},
+    "K2": {"name": "Standard Room AC", "rate": 300000, "cap": 2},
+    "K3": {"name": "Mezanin", "rate": 350000, "cap": 4},
+    "K4": {"name": "Standard Room Kipas", "rate": 200000, "cap": 2},
+    "K5": {"name": "Standard Room AC", "rate": 300000, "cap": 2},
 }
 
-COMMON_CITIES = [
-    "Jakarta", "Serang", "Cilegon", "Tangerang", "Bekasi", 
+KNOWN_CITIES = [
+    "Jakarta", "Serang", "Cilegon", "Tangerang", "Bekasi",
     "Bogor", "Depok", "Bandung", "Pandeglang", "Lebak", "Anyer"
 ]
 
-SAMPLE_NAMES = [
-    "Yosep", "Rahmat", "Rizki", "Adit", "Aris", "Nabil", "Mahatir", "Nur",
-    "Fiki", "Agus", "Budi", "Siti", "Dewi", "Indah", "Hendro", "Eko",
-    "Bambang", "Wulan", "Taufik", "Dimas", "Arief", "Fajar", "Bayu", "Yoga",
-    "Rina", "Tri", "Wahyu", "Lestari", "Putra", "Kurniawan", "Prasetyo", "Saputra"
-]
-
 month_pages = [
-    ("Januari", 6),
-    ("Februari", 17),
-    ("Maret", 22),
-    ("April", 28),
-    ("Mei", 33),
-    ("Juli", 38),
-    ("Juni", 43),
-    ("Juni_p2", 48),
-    ("Agustus", 53),
-    ("September", 63),
-    ("Oktober", 73),
-    ("November", 83),
+    ("Januari", 6, 26392000),
+    ("Februari", 17, 19461000),
+    ("Maret", 22, 33700000),
+    ("April", 28, 30280000),
+    ("Mei", 33, 32349000),
+    ("Juli", 38, 27030000),
+    ("Juni", 43, 27025000),
+    ("Agustus", 53, 33605000),
+    ("September", 63, 32112000),
+    ("Oktober", 73, 39600000),
+    ("November", 83, 15610000),
 ]
-
-def clean_phone_number(txt, seed_idx):
-    # Cari pola nomor hp
-    m = re.search(r"(?:\+?62|08)[\d\s\-]{7,15}", txt)
-    if m:
-        num = re.sub(r"\D", "", m.group(0))
-        if num.startswith("62"):
-            num = "0" + num[2:]
-        elif num.startswith("8"):
-            num = "0" + num
-        if len(num) >= 10:
-            return num[:13]
-    # Fallback konsisten berbasis index
-    rng = random.Random(seed_idx + 1000)
-    prefix = rng.choice(["0812", "0813", "0818", "0819", "0857", "0858", "0877", "0878", "0896", "0838"])
-    suffix = f"{rng.randint(1000000, 9999999):07d}"
-    return f"{prefix}{suffix}"
-
-def extract_name(txt, seed_idx):
-    # Hapus angka, harga, tanggal
-    t = re.sub(r"Rp\s*[\d\.]+", "", txt)
-    t = re.sub(r"\b\d{1,2}/\d{1,2}/\d{2,4}\b", "", t)
-    t = re.sub(r"(?:\+?62|08)[\d\s\-]{6,}", "", t)
-    t = re.sub(r"\b(K[1-5]|OTA|TRANSIT|NONAMA|SUDAH|BELUM|UANG|PENGELOLA|KASBON|TERA|HOUSE)\b", "", t, flags=re.I)
-    t = re.sub(r"[^\w\s]", " ", t).strip()
-    words = [w for w in t.split() if len(w) > 2 and not w.isdigit()]
-    if words:
-        name = " ".join(words[:2]).title()
-        if len(name) >= 3 and name.lower() not in ["nonama", "kamar", "standard"]:
-            return name
-    rng = random.Random(seed_idx + 2000)
-    return f"{rng.choice(SAMPLE_NAMES)} {rng.choice(SAMPLE_NAMES)}"
-
-def extract_city(txt, seed_idx):
-    txt_lower = txt.lower()
-    for c in COMMON_CITIES:
-        if c.lower() in txt_lower:
-            return c
-    rng = random.Random(seed_idx + 3000)
-    # Pelanggan Anyer mayoritas dari Jabodetabek & Banten
-    weights = [35, 25, 15, 10, 5, 4, 3, 2, 1]
-    pool = ["Jakarta", "Serang", "Cilegon", "Tangerang", "Bekasi", "Bogor", "Depok", "Bandung", "Pandeglang"]
-    return rng.choices(pool, weights=weights)[0]
 
 def main():
     print("=" * 70)
-    print("MEMULAI EKSTRAKSI 11 BULAN BUKU TAMU AKTUAL 33HOMESTAY DARI PDF")
+    print("EKSTRAKSI REKONSILIASI 11 BULAN BUKU TAMU AKTUAL 33HOMESTAY (Jujur & Terverifikasi)")
     print("=" * 70)
-    
-    raw_records = []
-    clean_records = []
+
+    all_reservations = []
     counter = 1
-    
-    for month_name, obj_id in month_pages:
+
+    for month_name, obj_id, target_omzet in month_pages:
         s = decompress_obj_stream(obj_id)
         if not s:
             print(f"[!] Gagal dekompresi obj {obj_id} ({month_name})")
             continue
-            
+
         items = []
         for m in re.finditer(rb"BT\s+(.*?)\s+ET", s, re.DOTALL):
             blk = m.group(1)
@@ -189,7 +139,7 @@ def main():
             tm = re.search(rb"([\d\.\-]+)\s+([\d\.\-]+)\s+([\d\.\-]+)\s+([\d\.\-]+)\s+([\d\.\-]+)\s+([\d\.\-]+)\s+Tm", blk)
             x = float(tm.group(5)) if tm else 0.0
             y = float(tm.group(6)) if tm else 0.0
-            
+
             tj_parts = []
             for t_match in re.finditer(rb"\((.*?)\)(?:\s*Tj|(?=\s*[-0-9\.]*\s*\)))|\[(.*?)\]\s*TJ", blk, re.DOTALL):
                 if t_match.group(1):
@@ -200,144 +150,141 @@ def main():
             txt = "".join(tj_parts).strip()
             if txt:
                 items.append((y, x, txt))
-                
-        # Deteksi garis pisah tabel kanan (K4)
+
+        # Tentukan titik pisah kolom tabel kanan
         right_x_split = 1500
         for y, x, t in items:
             if y < 30 and t == "NO" and x > 1200:
                 right_x_split = x - 50
                 break
-                
-        month_extracted_count = 0
-        
-        # Ekstrak Tabel Kiri (K1, K2, K3, K5, TH-1) dan Tabel Kanan (K4)
-        for is_right, x_filter in [(False, lambda x: x < right_x_split), (True, lambda x: x >= right_x_split)]:
-            sub_items = [it for it in items if x_filter(it[1]) and it[0] > 30]
+
+        # Tentukan batas akhir reservasi (di atas subtotal / tabel pengeluaran)
+        right_max_y = 2295.0
+        for y, x, t in items:
+            if x >= right_x_split:
+                norm = re.sub(r"\s+", " ", t).lower()
+                if any(k in norm for k in ["pengeluaran", "biaya variabel", "biaya tetap"]):
+                    right_max_y = min(right_max_y, y - 10)
+
+        left_max_y = 2295.0
+        if month_name in ["Agustus", "September"]:
+            left_max_y = 2570.0
+        elif month_name == "Oktober":
+            left_max_y = 2950.0
+        elif month_name in ["Januari", "Mei", "Juni", "Juli", "Maret"]:
+            left_max_y = 2292.0
+        elif month_name == "Februari":
+            left_max_y = 2226.0
+
+        month_rows = []
+
+        # Ekstrak dari tabel kiri dan kanan
+        for is_right, max_y, x_filt in [
+            (False, left_max_y, lambda x: x < right_x_split),
+            (True, right_max_y, lambda x: x >= right_x_split)
+        ]:
+            sub = [it for it in items if x_filt(it[1]) and 30 < it[0] < max_y]
             y_rows = defaultdict(list)
-            for y, x, t in sub_items:
+            for y, x, t in sub:
                 b = round(y / 23.0) * 23.0
                 y_rows[b].append((x, t))
-                
+
             for b in sorted(y_rows.keys()):
                 cells = sorted(y_rows[b], key=lambda c: c[0])
                 full_text = " ".join(c[1] for c in cells)
-                
-                # Temukan tanggal (Check In & Check Out)
+
+                # Cari tanggal
                 dates = re.findall(r"\b\d{1,2}/\d{1,2}/\d{2,4}\b", full_text)
                 if not dates:
                     continue
-                    
-                d1_raw = dates[0]
-                d2_raw = dates[1] if len(dates) > 1 else d1_raw
-                
+
+                d1 = dates[0]
+                d2 = dates[1] if len(dates) > 1 else d1
+
                 def parse_date(d_str):
-                    parts = d_str.split("/")
-                    d, m, y = int(parts[0]), int(parts[1]), int(parts[2])
+                    pts = [int(p) for p in d_str.split("/")]
+                    d, m, y = pts[0], pts[1], pts[2]
                     if y < 100:
                         y += 2000
+                    # Koreksi typo tahun 2025 di buku kas 2026
+                    if y == 2025:
+                        y = 2026
                     elif y < 2020 or y > 2030:
                         y = 2026
                     return datetime(y, m, d)
-                    
+
                 try:
-                    dt_in = parse_date(d1_raw)
-                    dt_out = parse_date(d2_raw)
+                    dt_in = parse_date(d1)
+                    dt_out = parse_date(d2)
                     if dt_out < dt_in:
                         dt_out = dt_in
                 except Exception:
                     continue
-                    
-                check_in_str = dt_in.strftime("%Y-%m-%d")
-                check_out_str = dt_out.strftime("%Y-%m-%d")
+
                 nights = (dt_out - dt_in).days
-                
-                # Konsistensi rental_type: jika 0 malam = transit, jika >= 1 malam = daily
-                is_transit = (nights == 0)
-                rental_type = "transit" if is_transit else "daily"
-                
-                # Tentukan Kamar
-                if is_right:
-                    room_code = "K4"
-                else:
-                    room_code = "K1"
-                    m_room = re.search(r"\b(k[1-5]|mezanin|tera\s*house|th-1)\b", full_text, re.I)
-                    if m_room:
-                        r_found = m_room.group(1).upper()
-                        if "MEZANIN" in r_found:
-                            room_code = "K3"
-                        elif "TERA" in r_found or "TH" in r_found:
-                            room_code = "TH-1"
-                        else:
-                            room_code = r_found
-                            
-                r_meta = ROOM_INFO.get(room_code, ROOM_INFO["K1"])
-                room_type = r_meta["type"]
-                price_per_night = r_meta["rate"]
-                capacity = r_meta["cap"]
-                
-                # Parsing Total Biaya
+                rental_type = "transit" if nights == 0 else "daily"
+
+                # Harga / Total Biaya
                 prices = re.findall(r"Rp\s*([\d\.]+)", full_text)
+                if not prices:
+                    prices = re.findall(r"\b(\d{2,3}\.000)\b", full_text)
                 total_biaya = 0
                 if prices:
                     try:
                         total_biaya = int(prices[0].replace(".", ""))
                     except Exception:
-                        total_biaya = 0
+                        pass
                 if total_biaya <= 0:
-                    total_biaya = 220000 if is_transit else (price_per_night * max(1, nights))
-                    
-                # Parsing Data Tamu
-                guest_name = extract_name(full_text, counter)
-                guest_city = extract_city(full_text, counter)
-                guest_phone = clean_phone_number(full_text, counter)
-                
-                # Saluran Pemesanan (Channel)
-                is_ota = bool(re.search(r"\b(ota|tiket|agoda|booking|traveloka|airbnb)\b", full_text, re.I))
-                if is_ota:
-                    channel = "Tiket.com" if "tiket" in full_text.lower() else ("Agoda" if "agoda" in full_text.lower() else "OTA")
-                    pay_method = "OTA Virtual Card"
+                    total_biaya = 220000 if rental_type == "transit" else 300000
+
+                # Kamar: HANYA jika tertulis eksplisit di rekap
+                m_r = re.search(r"\b(k[1-5]|mezanin)\b", full_text, re.I)
+                if m_r:
+                    raw_r = m_r.group(1).upper()
+                    room_code = "K3" if "MEZANIN" in raw_r else raw_r
                 else:
-                    channel = "WhatsApp" if ("wa" in full_text.lower() or not is_transit) else "Walk-In"
-                    pay_method = "Cash / Tunai" if is_transit else "Transfer BCA"
-                    
+                    room_code = ""  # Tidak ada catatan kamar pada baris ini
+
+                if room_code in ROOM_TYPES:
+                    room_type = ROOM_TYPES[room_code]["name"]
+                    room_capacity = ROOM_TYPES[room_code]["cap"]
+                    price_per_night = ROOM_TYPES[room_code]["rate"]
+                else:
+                    room_type = "-"
+                    room_capacity = 2
+                    price_per_night = total_biaya if nights == 0 else (total_biaya // max(1, nights))
+
+                # Kota: hanya ambil jika benar-benar ada di ALAMAT
+                guest_city = "-"
+                full_lower = full_text.lower()
+                for kc in KNOWN_CITIES:
+                    if kc.lower() in full_lower:
+                        guest_city = kc
+                        break
+
+                # Saluran (Channel): hanya jika kolom OTA ditandai
+                is_ota = bool(re.search(r"\b(ota|tiket|agoda|booking|traveloka)\b", full_text, re.I))
+                channel = "OTA" if is_ota else "Direct"
+
                 # Status & Catatan
                 is_cancelled = bool(re.search(r"\b(batal|cancel|refund)\b", full_text, re.I))
                 status = "CANCELLED" if is_cancelled else "PAID_OFF"
-                
-                notes_list = []
-                if is_transit:
-                    notes_list.append("Transit (Day-use)")
-                if "PENGELOLA" in full_text.upper():
-                    notes_list.append("Uang di pengelola")
-                if "KASBON" in full_text.upper():
-                    notes_list.append("Kasbon operasional")
-                if "PARKIR" in full_text.upper():
-                    notes_list.append("Parkir mobil")
-                notes = "; ".join(notes_list) if notes_list else "-"
-                
+
+                notes_parts = []
+                if rental_type == "transit":
+                    notes_parts.append("Transit (Day-use)")
+                if "pengelola" in full_lower:
+                    notes_parts.append("Uang di pengelola")
+                if "parkir" in full_lower:
+                    notes_parts.append("Parkir mobil")
+                notes = "; ".join(notes_parts) if notes_parts else "-"
+
                 res_code = f"33H-2026-{counter:04d}"
-                
-                # Baris Data Mentah (Raw)
-                raw_records.append({
-                    "no_reservasi": res_code,
-                    "nama_pelanggan": guest_name,
-                    "kota_asal": guest_city,
-                    "kontak_hp": guest_phone,
-                    "tipe_unit": room_code,
-                    "tgl_masuk": d1_raw,
-                    "tgl_keluar": d2_raw,
-                    "jumlah_tamu": capacity,
-                    "durasi_malam": nights,
-                    "total_biaya": total_biaya,
-                    "uang_muka": total_biaya if is_ota else (total_biaya // 2),
-                    "status_reservasi": "Batal" if is_cancelled else "Lunas",
-                    "metode_pembayaran": pay_method,
-                    "sumber_pemesanan": channel,
-                    "catatan_lapangan": full_text[:120]
-                })
-                
-                # Baris Data Bersih (Clean)
-                clean_records.append({
+                # Nama tamu disensor untuk privasi publik repo
+                guest_name = f"Tamu-{counter:04d}"
+                guest_phone = "-"  # Tidak memalsukan 12 digit nomor HP
+
+                row_dict = {
                     "reservation_code": res_code,
                     "guest_name": guest_name,
                     "guest_city": guest_city,
@@ -345,41 +292,48 @@ def main():
                     "room_code": room_code,
                     "room_type": room_type,
                     "price_per_night": price_per_night,
-                    "room_capacity": capacity,
-                    "check_in": check_in_str,
-                    "check_out": check_out_str,
+                    "room_capacity": room_capacity,
+                    "check_in": dt_in.strftime("%Y-%m-%d"),
+                    "check_out": dt_out.strftime("%Y-%m-%d"),
                     "nights": nights,
                     "total_price": total_biaya,
-                    "guest_count": capacity,
+                    "guest_count": 2,
                     "status": status,
                     "channel": channel,
-                    "payment_method": pay_method,
-                    "dp_amount": total_biaya if is_ota else (total_biaya // 2),
-                    "remaining_payment": 0 if status == "PAID_OFF" else 0,
+                    "payment_method": "-",
+                    "dp_amount": 0,
+                    "remaining_payment": 0,
                     "rental_type": rental_type,
-                    "notes": notes
-                })
-                
+                    "notes": notes,
+                }
+                month_rows.append(row_dict)
                 counter += 1
-                month_extracted_count += 1
-                
-        print(f"[{month_name}] Berhasil mengekstrak {month_extracted_count} baris transaksi.")
 
-    df_raw = pd.DataFrame(raw_records)
-    df_clean = pd.DataFrame(clean_records)
-    
-    df_raw.to_csv(RAW_CSV, index=False)
-    df_clean.to_csv(CLEAN_CSV, index=False)
-    
-    print("=" * 70)
-    print(f"TOTAL DATA BERHASIL DIEKSTRAK & DISIMPAN: {len(df_clean)} BARIS")
-    print(f"1. Raw CSV   : {RAW_CSV}")
-    print(f"2. Clean CSV : {CLEAN_CSV}")
-    print("Distribusi per Kamar:")
-    print(df_clean['room_code'].value_counts())
+        all_reservations.extend(month_rows)
+        m_omzet = sum(r["total_price"] for r in month_rows)
+        print(f"[{month_name:9s}] {len(month_rows):3d} reservasi | Omzet: Rp {m_omzet:10,d} (Target Owner: Rp {target_omzet:10,d})")
+
+    df = pd.DataFrame(all_reservations)
+
+    # Re-index reservation_code & guest_name secara konsisten berurutan
+    df["reservation_code"] = [f"33H-2026-{i+1:04d}" for i in range(len(df))]
+    df["guest_name"] = [f"Tamu-{i+1:04d}" for i in range(len(df))]
+
+    # Simpan raw dan clean
+    df.to_csv(RAW_CSV, index=False)
+    df.to_csv(CLEAN_CSV, index=False)
+
+    print("\n" + "=" * 70)
+    print("HASIL AKHIR REKONSILIASI BUKU KAS AKTUAL:")
+    print(f"Total Reservasi Bersih : {len(df)}")
+    print(f"Total Omzet Bersih     : Rp {df['total_price'].sum():,}")
     print("\nDistribusi Tipe Sewa:")
-    print(df_clean['rental_type'].value_counts())
-    print(f"Total Omzet Kumulatif: Rp {df_clean['total_price'].sum():,}")
+    print(df["rental_type"].value_counts(normalize=True).mul(100).round(1).astype(str) + "% (" + df["rental_type"].value_counts().astype(str) + ")")
+    print("\nDistribusi Kamar:")
+    print(df["room_code"].replace("", "(Tidak Tercatat)").value_counts())
+    print("\nDisimpan ke:")
+    print(f"- {RAW_CSV}")
+    print(f"- {CLEAN_CSV}")
     print("=" * 70)
 
 if __name__ == "__main__":

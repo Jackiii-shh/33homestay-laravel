@@ -13,3 +13,5 @@ npm-debug.log
 .idea
 .vscode
 /scratch
+*original*.csv
+*1578*.csv

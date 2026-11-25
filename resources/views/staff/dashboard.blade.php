@@ -59,7 +59,7 @@
                     <div class="flex flex-wrap items-center justify-between gap-3 py-3">
                         <div>
                             <a href="{{ route('reservations.show', $r) }}" class="font-bold text-slate-900 hover:text-forest-700">{{ $r->guest_name }}</a>
-                            <p class="text-xs text-slate-500">{{ $r->code }} · {{ $r->room->code }} · {{ $r->check_in->translatedFormat('d M') }} → {{ $r->check_out->translatedFormat('d M') }}
+                            <p class="text-xs text-slate-500">{{ $r->code }} · {{ $r->room?->code ?? '—' }} · {{ $r->check_in->translatedFormat('d M') }} → {{ $r->check_out->translatedFormat('d M') }}
                                 @if ($late)<span class="font-bold text-rose-600">· terlambat</span>@endif</p>
                             <p class="mt-1 text-xs">
                                 <span class="rounded-full px-2 py-0.5 font-semibold ring-1 {{ $r->paymentStatusClasses() }}">{{ $r->paymentStatusLabel() }}</span>
@@ -98,7 +98,7 @@
                     <div class="flex flex-wrap items-center justify-between gap-3 py-3">
                         <div>
                             <a href="{{ route('reservations.show', $r) }}" class="font-bold text-slate-900 hover:text-forest-700">{{ $r->guest_name }}</a>
-                            <p class="text-xs text-slate-500">{{ $r->code }} · {{ $r->room->code }} · rencana keluar {{ $r->check_out->translatedFormat('d M') }}</p>
+                            <p class="text-xs text-slate-500">{{ $r->code }} · {{ $r->room?->code ?? '—' }} · rencana keluar {{ $r->check_out->translatedFormat('d M') }}</p>
                         </div>
                         @if ($r->balance > 0)
                             <a href="{{ route('reservations.show', $r) }}#pembayaran" class="{{ $btn }} bg-amber-100 text-amber-800 hover:bg-amber-200">Selesaikan Pembayaran ({{ rupiah($r->balance) }})</a>
@@ -113,7 +113,7 @@
                 @endforelse
             </div>
             @if ($stayers->isNotEmpty())
-                <p class="mt-3 border-t border-slate-100 pt-3 text-xs text-slate-500">Masih menginap: {{ $stayers->map(fn ($r) => $r->guest_name.' ('.$r->room->code.', s.d. '.$r->check_out->translatedFormat('d M').')')->implode(' · ') }}</p>
+                <p class="mt-3 border-t border-slate-100 pt-3 text-xs text-slate-500">Masih menginap: {{ $stayers->map(fn ($r) => $r->guest_name.' ('.($r->room?->code ?? '—').', s.d. '.$r->check_out->translatedFormat('d M').')')->implode(' · ') }}</p>
             @endif
         </section>
 
@@ -128,7 +128,7 @@
                     <div class="flex flex-wrap items-center justify-between gap-3 py-3">
                         <div>
                             <a href="{{ route('reservations.show', $r) }}" class="font-bold text-slate-900 hover:text-forest-700">{{ $r->guest_name }}</a>
-                            <p class="text-xs text-slate-500">{{ $r->code }} · {{ $r->room->code }} · {{ $r->check_in->translatedFormat('d M') }} → {{ $r->check_out->translatedFormat('d M') }} · DP min {{ rupiah($r->minimumDp()) }}</p>
+                            <p class="text-xs text-slate-500">{{ $r->code }} · {{ $r->room?->code ?? '—' }} · {{ $r->check_in->translatedFormat('d M') }} → {{ $r->check_out->translatedFormat('d M') }} · DP min {{ rupiah($r->minimumDp()) }}</p>
                         </div>
                         <div class="text-right text-xs">
                             @if ($r->dp_deadline)
@@ -176,7 +176,7 @@
                 @forelse ($otaBlock as $r)
                     <div class="flex items-center justify-between gap-2 rounded-xl bg-rose-50 p-3 text-xs">
                         <div>
-                            <a href="{{ route('reservations.show', $r) }}" class="font-bold text-slate-900">{{ $r->room->code }} · {{ $r->check_in->translatedFormat('d M') }}–{{ $r->check_out->translatedFormat('d M') }}</a>
+                            <a href="{{ route('reservations.show', $r) }}" class="font-bold text-slate-900">{{ $r->room?->code ?? '—' }} · {{ $r->check_in->translatedFormat('d M') }}–{{ $r->check_out->translatedFormat('d M') }}</a>
                             <p class="text-slate-500">{{ $r->guest_name }}</p>
                         </div>
                         <form method="POST" action="{{ route('reservations.ota-block', $r) }}">@csrf
@@ -193,7 +193,7 @@
                 @forelse ($otaUnblock as $r)
                     <div class="flex items-center justify-between gap-2 rounded-xl bg-amber-50 p-3 text-xs">
                         <div>
-                            <a href="{{ route('reservations.show', $r) }}" class="font-bold text-slate-900">{{ $r->room->code }} · {{ $r->check_in->translatedFormat('d M') }}–{{ $r->check_out->translatedFormat('d M') }}</a>
+                            <a href="{{ route('reservations.show', $r) }}" class="font-bold text-slate-900">{{ $r->room?->code ?? '—' }} · {{ $r->check_in->translatedFormat('d M') }}–{{ $r->check_out->translatedFormat('d M') }}</a>
                             <p class="text-slate-500">{{ $r->statusLabel() }} · {{ $r->guest_name }}</p>
                         </div>
                         <form method="POST" action="{{ route('reservations.ota-unblock', $r) }}">@csrf

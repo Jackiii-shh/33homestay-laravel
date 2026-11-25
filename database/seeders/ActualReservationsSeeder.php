@@ -33,7 +33,7 @@ class ActualReservationsSeeder extends Seeder
         $header = fgetcsv($handle);
         $headerMap = array_flip($header);
 
-        $this->command?->info('Mengimpor data reservasi aktual dari clean_reservations.csv (~1.097 baris bersih)...');
+        $this->command?->info('Mengimpor data reservasi aktual dari clean_reservations.csv (1.208 data riil terverifikasi)...');
 
         // Hapus reservasi dan pembayaran lama jika ada agar bersih (DDL dilakukan di luar transaksi)
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
@@ -68,7 +68,7 @@ class ActualReservationsSeeder extends Seeder
                 $rentalType = ($row[$headerMap['rental_type']] ?? '') === 'transit' ? 'transit' : 'harian';
                 $notes = $row[$headerMap['notes']] ?? '-';
 
-                $room = $rooms->get($roomCode, $defaultRoom);
+                $room = (!empty($roomCode) && $rooms->has($roomCode)) ? $rooms->get($roomCode) : null;
 
                 // Mapping Status
                 $status = ($statusRaw === 'CANCELLED') ? Reservation::STATUS_CANCELLED : Reservation::STATUS_CHECKED_OUT;
@@ -76,7 +76,7 @@ class ActualReservationsSeeder extends Seeder
                 // Mapping Channel
                 if (str_contains($channelRaw, 'tiket')) {
                     $channel = 'tiketcom';
-                } elseif (str_contains($channelRaw, 'agoda')) {
+                } elseif (str_contains($channelRaw, 'agoda') || str_contains($channelRaw, 'ota')) {
                     $channel = 'agoda';
                 } elseif (str_contains($channelRaw, 'traveloka')) {
                     $channel = 'traveloka';
@@ -96,7 +96,7 @@ class ActualReservationsSeeder extends Seeder
 
                 $resId = DB::table('reservations')->insertGetId([
                     'code' => $code,
-                    'room_id' => $room->id,
+                    'room_id' => $room?->id,
                     'guest_name' => $guestName,
                     'guest_city' => $guestCity,
                     'guest_phone' => $guestPhone,

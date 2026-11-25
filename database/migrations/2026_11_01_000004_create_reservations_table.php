@@ -11,7 +11,9 @@ return new class extends Migration
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
             $table->string('code', 30)->unique();
-            $table->foreignId('room_id')->constrained('rooms')->restrictOnDelete();
+            // room_id dibuat nullable untuk mengakomodasi data historis buku kas fisik
+            // di mana beberapa transaksi tidak mencatat nomor unit secara spesifik.
+            $table->foreignId('room_id')->nullable()->constrained('rooms')->nullOnDelete();
 
             $table->string('guest_name', 100);
             $table->string('guest_city', 80)->nullable();

@@ -147,7 +147,7 @@
                         <span class="text-xs sm:text-sm font-bold text-slate-800">{{ $r->guest_name }}</span>
                         <span class="rounded-full px-2 py-0.5 text-[10px] font-bold ring-1 {{ $r->statusClasses() }}">{{ $r->statusLabel() }}</span>
                     </div>
-                    <p class="text-xs text-slate-500">{{ $r->check_in->translatedFormat('D, d M') }} · {{ $r->room->code }} · {{ $r->nights }} malam · {{ $r->paymentStatusLabel() }}</p>
+                    <p class="text-xs text-slate-500">{{ $r->check_in->translatedFormat('D, d M') }} · {{ $r->room?->code ?? '—' }} · {{ $r->nights }} malam · {{ $r->paymentStatusLabel() }}</p>
                 </a>
             @empty
                 <p class="py-6 text-center text-xs sm:text-sm text-slate-400">Tidak ada kedatangan terjadwal.</p>
@@ -164,7 +164,7 @@
                 <a href="{{ route('reservations.show', $r) }}" class="flex items-center justify-between gap-2 py-3 hover:bg-slate-50 transition rounded-lg px-1">
                     <div>
                         <p class="text-xs sm:text-sm font-bold text-slate-800">{{ $r->guest_name }}</p>
-                        <p class="text-xs text-slate-500">{{ $r->code }} · {{ $r->room->code }} · {{ $r->statusLabel() }}</p>
+                        <p class="text-xs text-slate-500">{{ $r->code }} · {{ $r->room?->code ?? '—' }} · {{ $r->statusLabel() }}</p>
                     </div>
                     <span class="text-xs sm:text-sm font-bold text-amber-600">{{ rupiah($r->balance) }}</span>
                 </a>
