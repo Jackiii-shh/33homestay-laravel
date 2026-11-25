@@ -11,9 +11,11 @@ use Illuminate\Database\Seeder;
  * - K1 = Standard Room AC
  * - K2 = Standard Room AC
  * - K3 = Mezanin
- * - K4 = Standard Room Kipas
+ * - K4 = Standard Room Kipas (kamar mitra — skema bagi hasil)
  * - K5 = Standard Room AC
- * - TH-1 = Tera House (Villa)
+ *
+ * Catatan: Tera House / TH-1 TIDAK termasuk dalam scope proyek ini
+ *          (dikecualikan oleh owner Pak Taufiq).
  */
 class RoomSeeder extends Seeder
 {
@@ -54,20 +56,41 @@ class RoomSeeder extends Seeder
             'name' => 'Tera House',
             'capacity' => 6,
             'price_per_night' => 800000,
-            'description' => 'Unit villa terpisah eksklusif untuk keluarga besar / rombongan hingga 6 orang. Halaman privat dan fasilitas lengkap.',
+            'description' => 'Unit villa terpisah eksklusif. Catatan: Tera House tidak termasuk scope proyek ini — dikecualikan oleh owner.',
             'facilities' => ['AC Lengkap', 'Ruang Keluarga Luas', 'Dapur & Kulkas', 'Kapasitas 4-6 orang', 'Parkir Privat'],
-            'is_active' => true,
+            'is_active' => false,  // nonaktif karena di luar scope
             'sort_order' => 4,
         ]);
 
-        // 6 Unit Fisik sesuai data aktual Owner
+        // 5 Unit Fisik sesuai scope proyek (TH-1 dikecualikan owner)
         $units = [
-            ['code' => 'K1', 'type_id' => $typeAc->id, 'notes' => 'Kamar 1 - Standard AC'],
-            ['code' => 'K2', 'type_id' => $typeAc->id, 'notes' => 'Kamar 2 - Standard AC (Kamar paling sering dipesan)'],
-            ['code' => 'K3', 'type_id' => $typeMezanin->id, 'notes' => 'Kamar 3 - Mezanin Bertingkat'],
-            ['code' => 'K4', 'type_id' => $typeKipas->id, 'notes' => 'Kamar 4 - Standard Kipas (Favorit sewa transit)'],
-            ['code' => 'K5', 'type_id' => $typeAc->id, 'notes' => 'Kamar 5 - Standard AC'],
-            ['code' => 'TH-1', 'type_id' => $typeTera->id, 'notes' => 'Tera House - Villa Privat'],
+            [
+                'code' => 'K1', 'type_id' => $typeAc->id,
+                'notes' => 'Kamar 1 - Standard AC',
+                'is_partner' => false, 'partner_share_percent' => 0,
+            ],
+            [
+                'code' => 'K2', 'type_id' => $typeAc->id,
+                'notes' => 'Kamar 2 - Standard AC',
+                'is_partner' => false, 'partner_share_percent' => 0,
+            ],
+            [
+                'code' => 'K3', 'type_id' => $typeMezanin->id,
+                'notes' => 'Kamar 3 - Mezanin Bertingkat',
+                'is_partner' => false, 'partner_share_percent' => 0,
+            ],
+            [
+                'code' => 'K4', 'type_id' => $typeKipas->id,
+                // K4 dikelola oleh mitra (Bahri). Pendapatan dibagi — proporsi
+                // pasti belum dikonfirmasi ke owner, sementara diisi 50%.
+                'notes' => 'Kamar 4 - Standard Kipas (kamar mitra bagi hasil)',
+                'is_partner' => true, 'partner_share_percent' => 50,
+            ],
+            [
+                'code' => 'K5', 'type_id' => $typeAc->id,
+                'notes' => 'Kamar 5 - Standard AC',
+                'is_partner' => false, 'partner_share_percent' => 0,
+            ],
         ];
 
         foreach ($units as $u) {
@@ -76,6 +99,8 @@ class RoomSeeder extends Seeder
                 'status' => Room::STATUS_READY,
                 'notes' => $u['notes'],
                 'is_active' => true,
+                'is_partner' => $u['is_partner'],
+                'partner_share_percent' => $u['partner_share_percent'],
             ]);
         }
     }

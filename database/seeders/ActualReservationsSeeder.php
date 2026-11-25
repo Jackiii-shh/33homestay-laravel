@@ -33,7 +33,7 @@ class ActualReservationsSeeder extends Seeder
         $header = fgetcsv($handle);
         $headerMap = array_flip($header);
 
-        $this->command?->info('Mengimpor 1.578 data reservasi aktual dari clean_reservations.csv...');
+        $this->command?->info('Mengimpor data reservasi aktual dari clean_reservations.csv (~1.097 baris bersih)...');
 
         // Hapus reservasi dan pembayaran lama jika ada agar bersih (DDL dilakukan di luar transaksi)
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');

@@ -20,6 +20,15 @@ return new class extends Migration
 
             $table->date('check_in');
             $table->date('check_out'); // eksklusif: tamu keluar pada tanggal ini
+
+            // Jam check-in/out untuk sewa transit (paket siang/sore, bukan menginap).
+            // NULL = sewa harian biasa. Conflict detection untuk transit HARUS memakai
+            // kombinasi (check_in + check_in_time) dan (check_out + check_out_time).
+            // Jika kedua kolom ini NULL, anggap check-in = 14:00 dan check-out = 12:00.
+            $table->time('check_in_time')->nullable()
+                  ->comment('Jam mulai sewa transit, contoh 08:00. NULL = sewa harian.');
+            $table->time('check_out_time')->nullable()
+                  ->comment('Jam selesai sewa transit, contoh 14:00. NULL = sewa harian.');
             $table->unsignedSmallInteger('nights');
             $table->unsignedInteger('price_per_night');
             $table->unsignedBigInteger('total_price');

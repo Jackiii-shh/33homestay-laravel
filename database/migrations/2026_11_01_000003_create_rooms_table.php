@@ -11,10 +11,17 @@ return new class extends Migration
         Schema::create('rooms', function (Blueprint $table) {
             $table->id();
             $table->foreignId('room_type_id')->constrained('room_types')->restrictOnDelete();
-            $table->string('code', 30)->unique();          // contoh: AC-1, KIPAS-2, MZN-1
+            $table->string('code', 30)->unique();           // K1, K2, K3, K4, K5
             $table->string('status', 20)->default('ready'); // ready | cleaning | maintenance
             $table->text('notes')->nullable();
             $table->boolean('is_active')->default(true);
+
+            // Kamar mitra bagi hasil (contoh: K4 dikelola mitra, ada bagi hasil)
+            $table->boolean('is_partner')->default(false)
+                  ->comment('true jika kamar dikelola mitra dengan skema bagi hasil');
+            $table->unsignedTinyInteger('partner_share_percent')->default(0)
+                  ->comment('Persentase pendapatan yang menjadi hak mitra (0-100). 0 = bukan mitra.');
+
             $table->timestamps();
         });
     }

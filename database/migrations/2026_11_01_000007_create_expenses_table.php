@@ -17,7 +17,12 @@ return new class extends Migration
             $table->string('name', 150); // Contoh: Token Listrik K1, Gaji Sadam, Beras 5kg, wifi, dll
             $table->unsignedBigInteger('amount');
             $table->date('expense_date');
-            $table->string('room_code', 20)->nullable(); // K1, K2, K3, K4, K5, TH-1 (opsional bila spesifik unit)
+            // Kode kamar terkait (K1–K5). NULL = biaya umum bukan per unit.
+            // Disimpan sebagai string (bukan FK) agar biaya umum tetap bisa dicatat
+            // tanpa harus mengikat ke satu kamar tertentu.
+            // Catatan: TH-1 (Tera House) TIDAK termasuk dalam scope proyek ini.
+            $table->string('room_code', 20)->nullable()
+                  ->comment('K1-K5 jika biaya spesifik per unit. NULL = biaya umum.');
             $table->string('paid_to', 80)->nullable();
             $table->text('notes')->nullable();
             $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
