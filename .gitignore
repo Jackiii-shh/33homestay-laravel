@@ -15,3 +15,7 @@ npm-debug.log
 /scratch
 *original*.csv
 *1578*.csv
+*.pdf
+Data_tamu.pdf
+.backup_pre_pipeline/
+

@@ -1,0 +1,35 @@
+source_month,source_table,source_row_no,kolom,nilai_asli,nilai_baru,aturan,keyakinan,needs_review
+1,kiri,18,check_out,04/01/2025,04/01/2026,R1,tinggi,False
+1,kiri,44,check_in,15/01/2025,15/01/2026,R1,tinggi,False
+1,kiri,44,check_out,16/01/2025,16/01/2026,R1,tinggi,False
+1,kanan,62,check_in,1/2/2026,02/01/2026,R2,tinggi,False
+1,kanan,62,check_out,1/2/2026,02/01/2026,R2,tinggi,False
+1,kanan,,check_in/out,12/3/2026 - 12/4/2026,UNRESOLVED,Kasus Khusus Nur Jan,rendah,True
+1,kanan,,check_in,05/01/2025,05/01/2026,R1,tinggi,False
+1,kanan,,check_out,05/01/2025,05/01/2026,R1,tinggi,False
+1,kanan,,check_in,13/01/2025,13/01/2026,R1,tinggi,False
+1,kanan,,check_out,13/01/2025,13/01/2026,R1,tinggi,False
+2,kanan,1,check_in,2/1/2026,01/02/2026,R2,tinggi,False
+2,kanan,2,check_in,2/4/2026,04/02/2026,R2,tinggi,False
+2,kanan,2,check_out,2/4/2026,04/02/2026,R2,tinggi,False
+2,kanan,3,check_in,2/6/2026,06/02/2026,R2,tinggi,False
+2,kanan,3,check_out,2/7/2026,07/02/2026,R2,tinggi,False
+3,kiri,6,check_in,06/02/2026,06/03/2026,R3,sedang,True
+4,kanan,18,check_in,26/05/2026,26/04/2026,R3,sedang,True
+4,kanan,18,check_out,26/05/2026,26/04/2026,R7,tinggi,False
+4,kanan,19,check_in,27/05/2026,27/04/2026,R3,sedang,True
+4,kanan,19,check_out,27/05/2026,27/04/2026,R7,tinggi,False
+4,kanan,20,check_in,27/05/2026,27/04/2026,R3,sedang,True
+4,kanan,20,check_out,28/05/2026,28/04/2026,R7,tinggi,False
+4,kanan,21,check_out,28/05/2026,28/04/2026,R7,tinggi,False
+5,kiri,74,check_in/out,27/05/2026 - 26/05/2026,26/05/2026 - 27/05/2026,R6,tinggi,False
+7,kiri,11,check_in,05/07/0202,05/07/2026,R1,tinggi,False
+7,kanan,12,check_in,16/04/2026,16/07/2026,R3,sedang,True
+7,kanan,13,check_in,19/04/2026,19/07/2026,R3,sedang,True
+9,kiri,101,check_out,31/09/2026,01/10/2026,R5,tinggi,False
+10,kiri,121,check_out,01/10/2026,01/11/2026,R4,tinggi,False
+10,kiri,126,check_out,01/10/2026,01/11/2026,R4,tinggi,False
+10,kiri,127,check_out,01/10/2026,01/11/2026,R4,tinggi,False
+10,kiri,128,check_out,01/10/2026,01/11/2026,R4,tinggi,False
+10,kanan,,check_out,01/10/2026,01/11/2026,R4,tinggi,False
+11,kiri,13,duration,03/11/2026 - 26/11/2026,2026-11-03 - 2026-11-26,R7,rendah,True
