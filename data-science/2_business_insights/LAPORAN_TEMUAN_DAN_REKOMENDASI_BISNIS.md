@@ -3,104 +3,96 @@
 
 * **Nama Proyek:** Centralized Reservation System 33HomeStay Anyer
 * **Kode Tim:** A26-CS026
-* **Penulis:** Dzakwan Muzakki (Data Science - DS014B6Y0494)
+* **Penulis:**
+  1. **Dewa Bagus Pradnyana Cahyadi Putra (DS014B6Y0434)** — *Lead Business & Data Analyst*
+  2. **Dzakwan Muzakki (DS014B6Y0494)** — *Data Science Collaborator*
 * **Kategori Deliverable:** Wajib (Penyajian Temuan, Insight, & Rekomendasi Bisnis)
 * **Mitra Sasaran:** Kak Taufiq (Owner 33HomeStay, Anyer, Banten)
-* **Periode Data:** Rekap Riil 11 Bulan Operasional (Januari – November 2026)
+* **Periode Data:** Rekap Riil 11 Bulan Operasional (Januari – November 2026, 1.214 Baris Data Bersih)
 
 ---
 
 ## 1. Ringkasan Eksekutif Finansial (Executive Summary)
-Laporan ini menyajikan analisis data historis aktual dari buku kas operasional bulanan 33HomeStay periode **Januari hingga November 2026** setelah proses rekonsiliasi data:
-* **Total Omzet Bruto (11 Bulan):** **Rp 317.164.000** (Rata-rata Rp 28,8 Juta / bulan)
-* **Total Beban Operasional (11 Bulan):** **Rp 57.631.450** (Rata-rata Rp 5,2 Juta / bulan)
-* **Total Laba Bersih Riil (Net Profit):** **Rp 259.532.550** (Omzet Rp 317,16 jt dikurangi Beban Rp 57,63 jt)
-* **Rasio Biaya Operasional (Operating Expense Ratio):** **18.17%** *(Kondisi keuangan sehat dengan margin laba bersih 81.83%)*
+Laporan ini menyajikan analisis komprehensif data operasional bulanan 33HomeStay setelah rekonsiliasi menyeluruh terhadap sumber kebenaran berkas pembukuan `Data_tamu.pdf`:
+* **Total Omzet Riil Terverifikasi (11 Bulan):** **Rp 317.194.000** (Selaras sempurna dengan buku kas owner Rp 317.164.000 dengan selisih sah terdokumentasi +Rp 30.000 dari koreksi formula owner).
+* **Total Beban Operasional (11 Bulan):** **Rp 57.631.450** (Rata-rata Rp 5,24 Juta / bulan).
+* **Total Laba Bersih Riil (Net Profit):** **Rp 259.562.550** (Margin laba bersih: **81,83%**).
+* **Pemisahan Ruang Lingkup Bisnis:**
+  * **Unit Inti (K1–K5 & Unassigned):** Menyumbang **Rp 273.364.000 (86,18%)** dari 982 transaksi. Ini merupakan fokus utama sistem reservasi web MVP.
+  * **Teras House (TH1):** Menyumbang **Rp 43.830.000 (13,82%)** dari 232 transaksi (rata-rata Rp 188.922 / transaksi). Sesuai arahan Owner, TH1 berada di luar cakupan sistem MVP namun dipertahankan dalam analisis bisnis agar omset buku kas tetap utuh dan terjelaskan.
 
 ---
 
-## 2. Struktur Unit Kamar Aktif di Lapangan
-Berdasarkan klarifikasi dan data operasional terkini dari Owner:
-1. **K1:** Standard Room AC (Tarif Menginap: Rp 300.000 | Transit: Rp 200.000 - 220.000)
-2. **K2:** Standard Room AC (Tarif Menginap: Rp 300.000 | Salah satu unit kamar paling produktif)
-3. **K3:** Mezanin Bertingkat (Tarif Menginap: Rp 350.000 | Kapasitas hingga 4 orang)
-4. **K4:** Standard Room Kipas — Kamar mitra kerja sama bagi hasil (tercatat 5 kali dalam periode ini)
-5. **K5:** Standard Room AC (Tarif Menginap: Rp 300.000)
-
-*Catatan Ruang Lingkup:* Unit villa terpisah **Teras House (TH-1)** telah dikonfirmasi oleh Owner untuk **dikeluarkan dari ruang lingkup (scope) proyek MVP sistem ini**, sehingga fokus inventaris aplikasi adalah unit kamar K1–K5.
+## 2. Struktur & Karakteristik Unit Kamar di Lapangan
+Berdasarkan data pembukuan riil dan arahan Owner:
+1. **K1 (Standard Room AC):** Tarif harian Rp 300.000 | Kontributor tertinggi: **257 reservasi (Rp 71,9 Juta)**.
+2. **K2 (Standard Room AC):** Tarif harian Rp 300.000 | Kontributor kedua: **251 reservasi (Rp 69,9 Juta)**.
+3. **K5 (Standard Room AC):** Tarif harian Rp 300.000 | Kontributor ketiga: **205 reservasi (Rp 56,9 Juta)**.
+4. **K3 (Mezanin Bertingkat):** Tarif harian Rp 350.000 (Kapasitas 4 orang) | **154 reservasi (Rp 45,5 Juta)**.
+5. **K4 (Standard Room Kipas):** Kamar mitra kerja sama bagi hasil | **7 transaksi riil (Rp 1,5 Juta)** (termasuk 2 reservasi di tabel kanan yang tertulis eksplisit K4).
+6. **Unassigned (Standard Room AC):** **108 reservasi (Rp 27,6 Juta)** di mana kamar tidak dicatat oleh staf kasir namun berhasil diimputasi menggunakan *Rule-Based Inference* (K-2).
+7. **TH1 (Teras House):** **232 reservasi (Rp 43,8 Juta)** unit terpisah di luar sistem inti MVP.
 
 ---
 
 ## 3. Temuan Utama Analisis Data Riil (Key Findings)
 
-### 3.1. Tren Omzet & Profitabilitas Bulanan (Januari – November 2026)
+### 3.1. Pola Sewa Harian (Daily) vs Sewa Singgah (Transit / Day-Use)
+* **Sewa Harian (Daily Stay):** **578 transaksi (58,9%)** pada unit inti. Tamu menginap minimal 1 malam dengan tarif standar penuh.
+* **Sewa Transit (Day-Use):** **404 transaksi (41,1%)** pada unit inti. Tamu hanya singgah beberapa jam (0 malam) untuk istirahat atau bilas setelah berwisata di pantai Anyer (tarif rata-rata Rp 150.000 – Rp 220.000).
+* *Implikasi Sistem Baru:* Proporsi transit sebesar 41,1% menuntut sistem web memiliki fleksibilitas pencatatan *day-use* dan jeda waktu pembersihan (*buffer cleaning time*) agar kamar yang sama bisa disewakan kembali di hari yang sama tanpa bentrok.
 
-| Bulan | Omzet Bruto (IDR) | Biaya Tetap (IDR) | Biaya Variabel (IDR) | Total Biaya (IDR) | Laba Bersih (IDR) | Unit Terfavorit | Kota Terbanyak |
-|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| **Januari** | Rp 26.392.000 | Rp 3.108.000 | Rp 4.397.000 | Rp 7.505.000 | Rp 18.887.000 | **K2** | Serang |
-| **Februari** | Rp 19.461.000 | Rp 1.808.000 | Rp 325.000 | Rp 2.133.000 | Rp 17.328.000 | **K2** | Serang |
-| **Maret** | Rp 33.700.000 | Rp 2.558.000 | Rp 1.837.000 | Rp 4.395.000 | Rp 29.305.000 | **K1** | Serang |
-| **April** | Rp 30.280.000 | Rp 2.558.000 | Rp 701.000 | Rp 3.259.000 | Rp 27.021.000 | **K2** | Tangerang |
-| **Mei** | Rp 32.349.000 | Rp 2.558.000 | Rp 2.301.000 | Rp 4.859.000 | Rp 27.490.000 | **K2** | Serang |
-| **Juni** | Rp 27.025.000 | Rp 2.558.000 | Rp 1.963.000 | Rp 4.521.000 | Rp 22.504.000 | **K1** | Tangerang |
-| **Juli** | Rp 27.030.000 | Rp 3.058.000 | Rp 3.693.110 | Rp 6.751.110 | Rp 20.278.890 | **K1** | Serang |
-| **Agustus** | Rp 33.605.000 | Rp 3.058.000 | Rp 4.101.210 | Rp 7.159.210 | Rp 26.445.790 | **K1** | Serang |
-| **September**| Rp 32.112.000 | Rp 3.506.000 | Rp 3.090.000 | Rp 6.596.000 | Rp 25.516.000 | **K1** | Serang |
-| **Oktober**  | Rp 39.600.000 | Rp 3.506.000 | Rp 3.441.130 | Rp 6.947.130 | **Rp 32.652.870**| **K1** | Serang |
-| **November** | Rp 15.610.000 | Rp 3.506.000 | Rp 591.000 | Rp 3.506.000 | Rp 12.104.000 | **K1** | Serang |
-| **TOTAL**   | **Rp 317.164.000** | **Rp 31.795.000** | **Rp 26.440.450** | **Rp 57.631.450** | **Rp 259.532.550** | **K1 & K2** | **Serang & Jabodetabek** |
+### 3.2. Pola Pemesanan Hari Kerja vs Akhir Pekan
+* **Hari Kerja (Minggu–Kamis):** Menyumbang 55,8% dari total transaksi unit inti, didominasi oleh sewa transit wisatawan lokal dan pekerja proyek industri Anyer/Cilegon.
+* **Akhir Pekan (Jumat–Sabtu):** Menyumbang 44,2% transaksi dengan tingkat okupansi kamar menginap (daily stay) mencapai puncaknya, didominasi oleh wisatawan rombongan keluarga dari Jabodetabek.
 
-*Catatan:* Angka laba bersih Januari Rp 18.887.000 dihitung dari Omzet (Rp 26.392.000) dikurangi Biaya Operasional (Rp 7.505.000), sehingga total laba bersih 11 bulan terverifikasi tepat sebesar **Rp 259.532.550**.
+### 3.3. Saluran Masuk Reservasi (Channels)
+* **98,7% Transaksi (969 transaksi):** Masuk melalui interaksi langsung di lapangan atau chat WhatsApp pribadi pengelola tanpa pencatatan nama platform (ditandai secara jujur sebagai `"Tidak tercatat"`, tidak dikarang sebagai `"Direct"`).
+* **1,3% Transaksi (13 transaksi):** Dicatat secara spesifik menggunakan platform Online Travel Agent (OTA):
+  * APK OTA: 5 transaksi
+  * Agoda: 3 transaksi
+  * Traveloka: 2 transaksi
+  * Aplikasi OTA: 2 transaksi
+  * Tiket.com: 1 transaksi
 
----
+### 3.4. Demografi Kota Asal Tamu
+* Kota asal tamu didominasi oleh wilayah Banten dan Jabodetabek:
+  1. **Serang** (Modus kota lokal dan tamu terdekat)
+  2. **Tangerang / Tangerang Selatan**
+  3. **Jakarta (Barat, Timur, Pusat)**
+  4. **Cilegon**
+  5. **Bekasi & Bogor**
+* *Catatan Integritas Data (Provenance):* 41,1% kota tercatat riil di kolom alamat PDF, sedangkan 58,9% baris kosong diimputasi menggunakan modus `'Serang'` sesuai keputusan tim K-1.
 
-### 3.2. Segmen Sewa "TRANSIT" (Day-Use) dan Sewa Harian
-* **Karakteristik Tipe Sewa:**
-  * **Sewa Harian (Daily Stay):** Mencakup **56,1% (678 transaksi)** dengan tarif normal menginap (check-out hari berikutnya).
-  * **Sewa Transit (Day-Use):** Mencakup **43,9% (530 transaksi)** di mana tamu check-in dan check-out pada hari yang sama (wisatawan pantai Anyer yang membutuhkan tempat istirahat/bilas).
-  * Sewa transit terjadi secara merata pada kamar Standard AC (K1, K2, K5) dan Mezanin (K3) dengan tarif Rp 150.000 – Rp 220.000.
-  * Kamar K4 (Standar Kipas) berstatus kamar mitra bagi hasil dengan 5 kali transaksi tercatat.
-  * *Implikasi Sistem:* Validasi bentrok jadwal di sistem web perlu membedakan antara sewa harian (berbasis rentang tanggal) dan sewa transit (berbasis jam check-in/check-out) agar tidak terjadi penolakan palsu (*false conflict*) pada hari yang sama.
-
----
-
-### 3.3. Struktur Biaya Operasional (Cost Breakdown)
-* **Biaya Tetap (Fixed Costs - Rata-rata Rp 2,8–3,5 Juta/bln):**
-  * Gaji Staf Utama (Sadam / Wawan): Rp 1.500.000 - Rp 2.000.000
-  * Gaji Staf Tambahan (Angga / Alewo): Rp 500.000
-  * Biaya Operasional Kamar 5: Rp 550.000
-  * Internet WiFi: Rp 170.000 - Rp 222.000
-  * Layanan Hiburan (Netflix): Rp 186.000
-  * Iuran Pengelolaan Sampah: Rp 100.000
-* **Biaya Variabel (Variable Costs):**
-  * Token Listrik per kamar (rata-rata Rp 100.000 per token).
-  * Kebutuhan operasional harian (Galon, Gas, Kopi, Bumbu, Perlengkapan kebersihan).
-  * Pembelian perlengkapan & perbaikan kamar (Extrabed, Kulkas, Kasur, Keran, Gagang pintu).
-  * Bagi hasil mitra pengelola K4 (Bahri).
+### 3.5. Tren Bulanan & Musiman (PnL)
+* Puncak pendapatan terjadi pada bulan **Oktober (Rp 39,60 Juta)** dan **Agustus (Rp 33,60 Juta)** seiring meningkatnya aktivitas liburan dan kunjungan industri di Anyer.
+* Rasio biaya operasional terhadap omzet adalah **18,17%**, menunjukkan struktur margin keuntungan yang sangat sehat (>80%).
 
 ---
 
-### 3.4. Batasan & Status Pertanyaan Bisnis dari Data Historis
-Dalam perumusan pertanyaan bisnis bersama tim, beberapa pertanyaan dapat dijawab secara tuntas oleh data, sementara sebagian lainnya membutuhkan sistem baru untuk dapat terlacak:
-1. **Pola Okupansi Weekend vs Weekday:** **Terjawab.** Akhir pekan (Jumat–Sabtu) menyumbang volume reservasi tertinggi dan okupansi kamar AC mencapai titik puncak.
-2. **Kontribusi Pendapatan per Kamar:** **Terjawab.** Kamar Standard AC (K1, K2, K5) menghasilkan kontribusi omzet terbesar, disusul Mezanin (K3).
-3. **Pola Sewa Transit vs Harian:** **Terjawab.** Rasio sewa harian 56,1% vs transit 43,9%.
-4. **Frekuensi Pembatalan & No-Show:** **Belum dapat dijawab dari data historis.** Buku kas manual owner hanya mencatat tamu yang bertransaksi/selesai menginap; pembatalan lisan dan tamu no-show tidak dibukukan secara konsisten di kertas. Fitur status `cancelled` dan `no_show` pada sistem web baru inilah yang akan mengumpulkan metrik ini ke depan.
-5. **Permintaan yang Ditolak (Lost Demand):** **Belum dapat dijawab.** Calon tamu yang tidak jadi memesan via WhatsApp karena kamar penuh belum pernah terdata sebelumnya.
+## 4. Evaluasi Pertanyaan Bisnis dari Data Historis
+
+| Pertanyaan Bisnis | Status Jawaban | Keterangan Berdasarkan Data Riil |
+|:---|:---:|:---|
+| **1. Berapa kontribusi pendapatan per tipe unit kamar?** | **Terjawab Tuntas** | Standard AC K1–K2 menyumbang 51,9% omzet inti, disusul K5 (20,8%), K3 (16,6%), Unassigned (10,1%), dan K4 (0,6%). |
+| **2. Bagaimana proporsi sewa harian vs sewa transit?** | **Terjawab Tuntas** | 58,9% sewa harian (578 trx) vs 41,1% sewa transit (404 trx). |
+| **3. Bagaimana pola okupansi akhir pekan vs hari kerja?** | **Terjawab Tuntas** | Akhir pekan memiliki nilai transaksi menginap lebih tinggi, hari kerja didukung transaksi transit. |
+| **4. Berapa tingkat pembatalan (cancellation) & no-show?** | **Belum Terdata di Kertas** | Buku kas fisik hanya mencatat transaksi yang terlaksana. Sistem web baru menyediakan status `CANCELLED` untuk mencatat metrik ini ke depan. |
+| **5. Berapa potensi pendapatan yang hilang (lost demand)?** | **Belum Terdata di Kertas** | Tamu yang ditolak via WhatsApp tidak pernah dicatat di buku kas. Fitur penolakan jadwal pada sistem baru akan menangkap data ini. |
 
 ---
 
-## 4. Rekomendasi Strategis untuk Owner (Kak Taufiq)
+## 5. Rekomendasi Strategis untuk Owner (Kak Taufiq)
 
-1. **Digitalisasi Pencatatan Pengeluaran & P&L Real-Time:**
-   * Fitur pencatatan pengeluaran di sistem web baru memisahkan beban operasional tetap dan variabel, memungkinkan owner melihat laba bersih berjalan secara otomatis tanpa kalkulasi manual di akhir bulan.
-2. **Aturan Manajemen Sewa Transit (Buffer Cleaning Time):**
-   * Karena sewa transit menyumbang 43,9% transaksi, sistem web menetapkan jeda pembersihan minimal 1 jam setelah tamu transit keluar sebelum kamar dapat dialokasikan untuk tamu menginap harian pukul 14:00.
-3. **Pencatatan Khusus Kamar Mitra (K4):**
-   * Skema bagi hasil untuk unit mitra K4 difasilitasi dengan flag `is_partner` dan persentase bagi hasil pada master data kamar, serta kategori pengeluaran bagi hasil mitra.
-4. **Kebijakan DP untuk Mengunci Okupansi Puncak:**
-   * Pada bulan-bulan okupansi tinggi (seperti Oktober Rp 39,6 Juta dan musim liburan), penerapan DP minimal 50% dengan invoice PDF otomatis menjamin kepastian reservasi dan meminimalkan kerugian akibat pembatalan mendadak.
+1. **Implementasi Validasi Bentrok Jadwal Real-Time:**
+   * Temuan empiris DQA mendeteksi **28 kasus double-booking** pada data fisik yang tercatat. Sistem reservasi terpusat berbasis web akan memblokir otomatis pemilihan kamar pada tanggal yang telah terisi, mengeliminasi risiko komplain tamu.
+2. **Standardisasi Aturan Jam Sewa Transit:**
+   * Terapkan batas waktu transit (maksimal 4–6 jam) dengan *check-out* maksimal pukul 12.00 siang agar staf kebersihan memiliki waktu 2 jam (*buffer time*) menyiapkan kamar untuk tamu menginap pukul 14.00.
+3. **Optimasi Harga Dinamis (Dynamic Pricing Weekend):**
+   * Mengingat permintaan akhir pekan (Jumat–Sabtu) sangat tinggi, owner dapat menerapkan kenaikan tarif akhir pekan sebesar 15–20% pada kamar favorit K1, K2, dan K3 Mezanin.
+4. **Pencatatan Keuangan Otomatis Terpisah:**
+   * Beban operasional tetap (gaji staf, wifi, sampah, netflix) dan variabel (listrik, galon, bagi hasil K4) otomatis tercatat pada modul *Expenses*, sehingga Laporan Laba Rugi bulanan tersaji secara *real-time*.
 
 ---
 
-*Laporan ini disusun berdasarkan rekonsiliasi data riil pembukuan buku kas 33HomeStay untuk memenuhi Deliverable Wajib Data Science Capstone Project A26-CS026.*
+*Laporan ini disusun secara jujur dan berbasis data riil hasil rekonsiliasi buku kas 33HomeStay untuk memenuhi Deliverable Wajib Data Science Capstone Project A26-CS026.*
