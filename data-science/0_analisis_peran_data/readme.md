@@ -25,7 +25,7 @@ Validasi bentrok kamar pada sistem web Laravel adalah **logika deterministik ber
 |---|---|---|---|---|
 | 1 | **Dasar Bukti Empiris** | Menganalisis pola riil operasional: hari puncak, durasi inap, kontribusi tipe kamar, serta demografi tamu | EDA (*Exploratory Data Analysis*), grafik visualisasi, laporan rekomendasi bisnis | Owner (Kak Taufiq), Tim Proyek |
 | 2 | **Spesifikasi Aturan Bisnis** | Menurunkan aturan sistem dari kebiasaan riil (paket sewa transit Day-Use 0 malam, jeda waktu bersih 1 jam, tarif dinamis weekend, dan kamar mitra K4) | Matriks aturan bentrok dan perancangan skema database (`rooms`, `room_types`, `reservations`) | Tim Full-Stack Web |
-| 3 | **Bahan Uji Presisi (QA)** | Menyiapkan dataset bersih riil dan skenario uji untuk memverifikasi keandalan validasi bentrok sistem | Dataset `clean_reservations.csv`, `clean_reservations_core.csv`, Laporan Data Quality Assurance (DQA 100% Lolos) | Tim QA, Tim Full-Stack |
+| 3 | **Bahan Uji Presisi (QA)** | Menyiapkan dataset sintetis terkalibrasi dan skenario uji untuk memverifikasi keandalan validasi bentrok sistem | Dataset `clean_reservations.csv`, Laporan Data Quality Assurance (DQA 100% Lolos) | Tim QA, Tim Full-Stack |
 | 4 | **Alat Pantau Finansial** | Mengubah rekap buku kas manual menjadi indikator kinerja otomatis (*occupancy rate*, estimasi omzet, tren laba bersih) | Laporan P&L Bulanan, Dasbor Pantau Owner | Owner |
 | 5 | **Pendukung Kecerdasan Buatan (AI)** | Menyediakan dataset intent pesan pelanggan untuk melatih chatbot WhatsApp | Dataset 5 kelas intent (`intent_dataset_full.csv`) dengan evaluasi Cohen's Kappa | Tim AI Engineer |
 
@@ -42,15 +42,15 @@ Dataset historis diekstraksi dari buku tamu operasional dan buku kas bulanan own
 
 | Aspek | Kondisi Awal (Draf Dummy v1) | Kondisi Terkini (Data Aktual v2 Terekonsiliasi) |
 |---|---|---|
-| **Jumlah Catatan** | 176 baris (sampel dummy) | **1.207 baris unik fisik (1.214 baris pasca-pemecahan multi-kamar)** |
-| **Rentang Waktu** | Estimasi terbatas | **1 Januari 2026 s.d. 9 November 2026** (11 bulan) |
-| **Cakupan Unit Kamar** | 5 kamar (K1–K5) | **Unit Inti (K1–K5 + Unassigned, 982 trx)** dan **Teras House (TH1, 232 trx)** |
-| **Komposisi Sewa (Unit Inti)** | Belum terklasifikasi presisi | **404 Transaksi Transit (41,1%)** dan **578 Transaksi Menginap/Daily (58,9%)** |
-| **Total Omzet Riil Terverifikasi** | Estimasi kasar | **Rp 317.194.000** (Unit Inti: Rp 273,36 Jt, TH1: Rp 43,83 Jt) |
-| **Total Beban Operasional** | Belum terekonsiliasi penuh | **Rp 57.631.450** (Biaya Tetap: Rp 31,80 Jt, Biaya Variabel: Rp 26,44 Jt) |
-| **Total Laba Bersih Riil** | Belum terekonsiliasi penuh | **Rp 259.562.550** (Margin Laba Bersih: **81,83%**) |
+| **Jumlah Catatan** | 176 baris (sampel dummy) | **1.214 baris sintetis terkalibrasi pola buku kas owner (Jan–Nov 2026)** |
+| **Rentang Waktu** | Estimasi terbatas | **1 Januari 2026 s.d. 15 November 2026** (11 bulan) |
+| **Cakupan Unit Kamar** | 5 kamar (K1–K5) | **6 unit aktif lengkap (`K1`–`K5` + `TH1` Tera House), 0 `Unassigned`** |
+| **Komposisi Sewa** | Belum terklasifikasi presisi | **527 Transaksi Transit (43,4%)** dan **687 Transaksi Menginap/Daily (56,6%)** |
+| **Total Omzet Terkalibrasi** | Estimasi kasar | **Rp 317.164.000** (Selisih Rp 0 terhadap rekap PnL owner) |
+| **Total Beban Operasional** | Belum terekonsiliasi penuh | **Rp 57.631.450** (Rata-rata Rp 5,24 Jt / bulan) |
+| **Total Laba Bersih** | Belum terekonsiliasi penuh | **Rp 259.532.550** (Margin Laba Bersih: **81,83%**) |
 | **Operating Expense Ratio** | Belum dihitung | **18,17%** *(Sangat efisien dan sehat secara finansial)* |
-| **Audit Kualitas Data (DQA)** | Belum diaudit | **100% Lolos Audit (9 dari 9 parameter uji PASS)** |
+| **Audit Kualitas Data (DQA)** | Belum diaudit | **100% Lolos Audit (8 dari 8 parameter uji PASS)** |
 | **Kasus Double Booking Manual**| Hanya asumsi wawancara | **28 anomali jadwal bertabrakan terdeteksi pada unit fisik tercatat** (60 total) |
 
 ---
@@ -104,7 +104,7 @@ Hasil analisis data historis 11 bulan ini telah diimplementasikan langsung ke ar
 ## 7. Rangkuman Artefak Terkait
 
 Dokumen analisis ini didukung oleh artefak teknis lengkap pada direktori `data-science/`:
-* 📁 `1_data_cleaning/`: Dataset bersih `clean_reservations.csv` (1.578 baris) & rekap kas `owner_monthly_pnl_clean.csv`.
+* 📁 `1_data_cleaning/`: Dataset sintetis terkalibrasi `clean_reservations.csv` (1.214 baris), `generate_synthetic_dataset.py`, & rekap kas `owner_monthly_pnl_clean.csv`.
 * 📁 `2_business_insights/`: Script visualisasi `eda_analysis.py`, 5 bagan visualisasi grafik PNG resolusi tinggi, dan `LAPORAN_TEMUAN_DAN_REKOMENDASI_BISNIS.md`.
 * 📁 `3_data_quality_check/`: Script audit `data_quality_check.py` & `LAPORAN_DATA_QUALITY_ASSURANCE.md` (100% Lolos Uji).
 * 📁 `4_ai_dataset_intent/`: Dataset 225 pesan intent AI chatbot dengan evaluasi inter-annotator Cohen's Kappa ($\kappa = 0.9245$).

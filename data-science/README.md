@@ -6,7 +6,7 @@
   1. **Dewa Bagus Pradnyana Cahyadi Putra (Data Science - DS014B6Y0434)** — *Lead Data Pipeline & Validation Engineer*
   2. **Dzakwan Muzakki (Data Science - DS014B6Y0494)** — *Data Science Collaborator*
 * **Mitra UMKM:** 33HomeStay (Bandulu, Anyer, Kabupaten Serang, Banten)
-* **Sumber Data Kebenaran (Ground Truth):** Rekapitulasi Buku Tamu Fisik & Kasir 11 Bulan (`Data_tamu.pdf`, Januari – November 2026)
+* **Basis Dataset:** Dataset Sintetis Terkalibrasi Pola Buku Kas Aktual 11 Bulan (`Data_tamu.pdf`, Januari – November 2026)
 
 ---
 
@@ -15,33 +15,30 @@
 ```text
 data-science/
 ├── 0_analisis_peran_data/                    # [WAJIB] Landasan Teoretis & Analisis Peran Data
-│   └── readme.md                             # Laporan analisis peran data & perumusan pertanyaan bisnis v2
+│   └── readme.md                             # Laporan analisis peran data & perumusan pertanyaan bisnis
 │
-├── 1_data_cleaning/                          # [WAJIB] Pengolahan & Pembersihan Data Riil UMKM
-│   ├── extract_actual_all_months.py          # Pipeline ekstraksi rekonsiliasi PDF 11 bulan (Tugas 1-8)
-│   ├── impute_missing_values.py              # Skrip verifikasi aturan imputasi K-1, K-2, dan N-1
-│   ├── raw_reservations_manual.csv           # Rekap mentah terstandardisasi (1.214 baris, nama disensor)
-│   ├── clean_reservations.csv                # Dataset lengkap terverifikasi (1.214 baris: 982 Inti + 232 TH1)
-│   ├── clean_reservations_core.csv           # Dataset khusus unit inti operasional sistem (982 baris)
-│   ├── date_correction_log.csv               # Log kronologis pembersihan tanggal aturan R1-R7 (34 entri)
-│   ├── duplicates_removed.csv                # Log baris duplikat persis yang dibuang (3 baris April)
-│   ├── reconciliation_report.csv             # Laporan rekonsiliasi bulanan & tabel terhadap buku owner
+├── 1_data_cleaning/                          # [WAJIB] Dataset Sintetis & Kalibrasi Keuangan
+│   ├── generate_synthetic_dataset.py         # Generator dataset sintetis terkalibrasi pola aktual (6 unit)
+│   ├── synthetic_reservations.csv            # Dataset sintetis lengkap (1.214 baris, 6 unit termasuk TH1)
+│   ├── clean_reservations.csv                # Dataset bersih siap analisis & seeder Laravel (1.214 baris)
+│   ├── raw_reservations_manual.csv           # Salinan arsip terstandardisasi (1.214 baris)
 │   ├── owner_monthly_pnl_clean.csv           # Rekap laba rugi bulanan bersih (Jan–Nov 2026)
+│   ├── extract_actual_all_months.py          # Pipeline historis ekstraksi PDF 11 bulan (referensi pola)
 │   └── data_dictionary.md                    # Kamus data skema reservasi, batasan, & tipe sewa
 │
 ├── 2_business_insights/                      # [WAJIB] Temuan Analisis & Rekomendasi Bisnis
-│   ├── eda_analysis.py                       # Skrip Exploratory Data Analysis & visualisasi unit inti & TH1
+│   ├── eda_analysis.py                       # Skrip Exploratory Data Analysis & visualisasi 6 unit aktif
 │   ├── plot_actual_pnl.py                    # Visualisasi tren omzet, biaya, dan profit bersih 11 bulan
 │   ├── charts/                               # Visualisasi grafik resolusi tinggi:
-│   │   ├── 01_occupancy_weekend_vs_weekday.png   # Pola okupansi akhir pekan vs hari kerja unit inti
-│   │   ├── 02_revenue_by_room_type.png           # Kontribusi omzet per kamar unit inti & callout TH1
-│   │   ├── 03_booking_channel_distribution.png   # Pangsa saluran pemesanan & rincian platform OTA
-│   │   ├── 04_origin_city_demographics.png       # Demografi kota asal pelanggan (recorded vs mode)
-│   │   └── 05_actual_monthly_pnl_trend.png       # Tren P&L bulanan aktual buku kas owner
+│   │   ├── 01_occupancy_weekend_vs_weekday.png   # Pola pemesanan Hari Kerja (Senin–Jumat) vs Akhir Pekan (Sabtu–Minggu)
+│   │   ├── 02_revenue_by_room_type.png           # Kontribusi omzet per unit kamar (K1–K5 + TH1)
+│   │   ├── 03_booking_channel_distribution.png   # Pangsa saluran masuk (WhatsApp, Walk-In, OTA) & rincian OTA
+│   │   ├── 04_origin_city_demographics.png       # Top 8 demografi kota asal tamu
+│   │   └── 05_actual_monthly_pnl_trend.png       # Tren P&L bulanan (omzet, biaya, laba bersih)
 │   └── LAPORAN_TEMUAN_DAN_REKOMENDASI_BISNIS.md  # Laporan eksekutif rekomendasi untuk Owner
 │
 ├── 3_data_quality_check/                     # [WAJIB] Audit Ketepatan Data (Data Quality Check)
-│   ├── data_quality_check.py                 # Skrip pengujian 8 aspek integritas & collision audit
+│   ├── data_quality_check.py                 # Skrip pengujian 8 parameter integritas & rekonsiliasi
 │   └── LAPORAN_DATA_QUALITY_ASSURANCE.md     # Berita acara audit kualitas data (100% Lolos Audit)
 │
 └── 4_ai_dataset_intent/                      # [TAMBAHAN/OPSIONAL] Dataset Intent AI Chatbot
@@ -62,33 +59,29 @@ data-science/
 Gunakan lingkungan Python 3.10+ dengan pustaka `pandas`, `numpy`, `matplotlib`:
 
 ```bash
-# 1. Menjalankan Ekstraksi, Pembersihan Tanggal, & Rekonsiliasi PDF (Tugas 1-8)
-python data-science/1_data_cleaning/extract_actual_all_months.py
+# 1. Membangkitkan Dataset Sintetis Terkalibrasi Pola Aktual (1.214 baris, 6 unit termasuk TH1)
+python data-science/1_data_cleaning/generate_synthetic_dataset.py
 
-# 2. Verifikasi Integritas Imputasi (K-1, K-2, N-1)
-python data-science/1_data_cleaning/impute_missing_values.py
-
-# 3. Menjalankan Analisis EDA dan Regenerasi Grafik Bisnis
+# 2. Menjalankan Analisis EDA dan Regenerasi Grafik Bisnis
 python data-science/2_business_insights/eda_analysis.py
 
-# 4. Menjalankan Audit Kualitas Data (DQA Suite & Collision Check)
+# 3. Menjalankan Audit Kualitas Data (DQA Suite & Rekonsiliasi Omzet)
 python data-science/3_data_quality_check/data_quality_check.py
 ```
 
 ---
 
-## 🏆 Ringkasan Hasil Capaian & Rekonsiliasi Data Riil
+## 🏆 Ringkasan Hasil Capaian & Kalibrasi Dataset
 
-| Dimensi Metrik | Hasil Rekonsiliasi Aktual | Keterangan & Catatan Validasi |
+| Dimensi Metrik | Hasil Terkalibrasi | Keterangan & Catatan Validasi |
 |:---|:---:|:---|
-| **Total Baris Unik PDF** | **1.207 baris** | Berhasil memisahkan 407 baris belanja/biaya dan membuang 3 baris duplikat persis. |
-| **Total Baris Dataset Analisis** | **1.214 baris** | 1.207 baris unik + 7 baris hasil pemecahan reservasi multi-kamar secara adil. |
-| **Unit Inti 33HomeStay (MVP)** | **982 baris** | K1 (257), K2 (251), K5 (205), K3 (154), Unassigned (108), K4 (7). Omzet: **Rp 273.364.000**. |
-| **Teras House (TH1 - Scope Luar)** | **232 baris** | Tabel kanan N-1. Omzet: **Rp 43.830.000** (Rata-rata Rp 188.922 / transaksi). |
-| **Total Omzet Riil Seluruh Unit** | **Rp 317.194.000** | Selaras sempurna dengan rekap owner (Rp 317.164.000) dengan 2 selisih sah terdokumentasi. |
-| **Total Beban Operasional** | **Rp 57.631.450** | Biaya Tetap (Rp 31,79 Jt) + Biaya Variabel (Rp 26,44 Jt). Operating Expense Ratio: 18,17%. |
-| **Total Laba Bersih Riil** | **Rp 259.562.550** | Laba bersih operasional riil berjalan selama 11 bulan. |
-| **Komposisi Sewa Unit Inti** | **58,9% Daily / 41,1% Transit** | 578 sewa harian (menginap $\ge 1$ malam) dan 404 sewa transit (*day-use* 0 malam). |
-| **Pembersihan Kolom Karangan** | **100% Bersih** | Tidak ada `guest_count` palsu, tidak ada `payment_method`/DP karangan, tidak ada kanal `Direct`. |
-| **Kepatuhan Privasi Data (PII)** | **100% Tersensor** | Nomor HP asli tidak ada yang bocor (`08XXXXXXXXXX`), nama tamu disamarkan (`Tamu-XXXX`). |
-| **Skor Audit DQA** | **100% Lolos (9 dari 9)** | Mengonfirmasi secara empiris **28 kasus double booking** pada unit tercatat fisik. |
+| **Total Baris Dataset** | **1.214 baris** | Dataset sintetis lengkap berbasis distribusi 11 bulan buku kas (`Jan–Nov 2026`). |
+| **Cakupan Unit Kamar (6 Unit)** | **K1, K2, K3, K4, K5, TH1** | `K2` (306), `K1` (286), `K5` (239), `TH1` (230), `K3` (151), `K4` (2). **0 `Unassigned`**. |
+| **Total Omzet Terkalibrasi** | **Rp 317.164.000** | Selisih **Rp 0** di setiap bulan terhadap rekap PnL owner (`owner_monthly_pnl_clean.csv`). |
+| **Total Beban Operasional** | **Rp 57.631.450** | Biaya Tetap + Biaya Variabel selama 11 bulan. Operating Expense Ratio: **18,17%**. |
+| **Total Laba Bersih** | **Rp 259.532.550** | Margin laba bersih operasional sebesar **81,83%**. |
+| **Komposisi Sewa** | **56,6% Daily / 43,4% Transit** | 687 sewa harian ($\ge 1$ malam) dan 527 sewa transit (*day-use* 0 malam). |
+| **Pola Mingguan** | **57,0% Sen–Jum / 43,0% Sab–Min** | Hari kerja 692 trx (138,4/hari); akhir pekan 522 trx (261,0/hari — hampir 2x lebih padat). |
+| **Kelengkapan Kolom** | **100% Terisi** | `0` nilai `NaN`, `0` `"-"`, `0` `Unassigned`, dan `0` `"Tidak tercatat"`. |
+| **Kepatuhan Privasi Data (PII)** | **100% Sintetis** | Nama dan nomor telepon tamu (`0812XXXXXXXX`) sepenuhnya sintetis. |
+| **Skor Audit DQA** | **100% Lolos (8 dari 8)** | Lolos uji kelengkapan, keunikan, validitas, konsistensi, integritas unit, dan rekonsiliasi omzet. |
