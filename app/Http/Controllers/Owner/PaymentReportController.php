@@ -30,9 +30,9 @@ class PaymentReportController extends Controller
                     fputcsv($out, [
                         $p->paid_at->format('Y-m-d H:i'),
                         $p->invoice?->number,
-                        $p->reservation->code,
-                        $p->reservation->guest_name,
-                        $p->reservation->room->code,
+                        $p->reservation?->code ?? '-',
+                        $p->reservation?->guest_name ?? '-',
+                        $p->reservation?->room?->code ?? '—',
                         $p->typeLabel(),
                         $p->methodLabel(),
                         $p->amount,

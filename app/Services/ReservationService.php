@@ -317,7 +317,8 @@ class ReservationService
             if ($r->check_in->gt(today())) {
                 throw ValidationException::withMessages(['status' => 'Check-in baru dapat dilakukan mulai '.$r->check_in->translatedFormat('d M Y').'.']);
             }
-            if ($r->check_out->lte(today())) {
+            $isTransit = $r->rental_type === 'transit' || (int) $r->nights === 0;
+            if ($isTransit ? $r->check_out->lt(today()) : $r->check_out->lte(today())) {
                 throw ValidationException::withMessages(['status' => 'Masa menginap reservasi ini sudah lewat.']);
             }
             if ($r->room->status !== Room::STATUS_READY) {

@@ -56,13 +56,13 @@ class RoomSeeder extends Seeder
             'name' => 'Tera House',
             'capacity' => 6,
             'price_per_night' => 800000,
-            'description' => 'Unit villa terpisah eksklusif. Catatan: Tera House tidak termasuk scope proyek ini — dikecualikan oleh owner.',
+            'description' => 'Unit villa terpisah eksklusif (Unit: TH1) dengan ruang keluarga luas untuk rombongan.',
             'facilities' => ['AC Lengkap', 'Ruang Keluarga Luas', 'Dapur & Kulkas', 'Kapasitas 4-6 orang', 'Parkir Privat'],
-            'is_active' => false,  // nonaktif karena di luar scope
+            'is_active' => true,
             'sort_order' => 4,
         ]);
 
-        // 5 Unit Fisik sesuai scope proyek (TH-1 dikecualikan owner)
+        // 6 Unit Fisik lengkap termasuk TH1 (Tera House)
         $units = [
             [
                 'code' => 'K1', 'type_id' => $typeAc->id,
@@ -89,6 +89,11 @@ class RoomSeeder extends Seeder
             [
                 'code' => 'K5', 'type_id' => $typeAc->id,
                 'notes' => 'Kamar 5 - Standard AC',
+                'is_partner' => false, 'partner_share_percent' => 0,
+            ],
+            [
+                'code' => 'TH1', 'type_id' => $typeTera->id,
+                'notes' => 'Tera House - Unit Villa Terpisah',
                 'is_partner' => false, 'partner_share_percent' => 0,
             ],
         ];

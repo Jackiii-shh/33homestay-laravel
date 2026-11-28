@@ -43,7 +43,14 @@
                 <tr class="hover:bg-slate-50">
                     <td class="whitespace-nowrap px-4 py-3">{{ $p->paid_at->translatedFormat('d M Y H:i') }}</td>
                     <td class="px-4 py-3 font-mono text-xs">@if ($p->invoice)<a href="{{ route('invoices.pdf', $p->invoice) }}" class="text-brand-700 hover:underline">{{ $p->invoice->number }}</a>@endif</td>
-                    <td class="px-4 py-3"><a href="{{ route('reservations.show', $p->reservation) }}" class="font-semibold text-slate-800 hover:text-brand-700">{{ $p->reservation->code }}</a><p class="text-xs text-slate-400">{{ $p->reservation->guest_name }} · {{ $p->reservation->room->code }}</p></td>
+                    <td class="px-4 py-3">
+                        @if ($p->reservation)
+                            <a href="{{ route('reservations.show', $p->reservation) }}" class="font-semibold text-slate-800 hover:text-brand-700">{{ $p->reservation->code }}</a>
+                            <p class="text-xs text-slate-400">{{ $p->reservation->guest_name }} · {{ $p->reservation->room?->code ?? '—' }}</p>
+                        @else
+                            <span class="text-slate-400">—</span>
+                        @endif
+                    </td>
                     <td class="px-4 py-3">{{ $p->typeLabel() }}</td>
                     <td class="px-4 py-3">{{ $p->methodLabel() }}</td>
                     <td class="whitespace-nowrap px-4 py-3 text-right font-bold">{{ rupiah($p->amount) }}</td>

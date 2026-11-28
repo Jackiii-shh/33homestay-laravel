@@ -67,8 +67,8 @@ class ActualReservationsSeeder extends Seeder
                 $roomCode = trim($row[$headerMap['room_code']] ?? '');
                 $dateUnresolved = filter_var($row[$headerMap['date_unresolved']] ?? false, FILTER_VALIDATE_BOOLEAN);
 
-                // Filter Task 12: Hanya unit inti dengan room_code K1-K5
-                if ($unitScope !== 'inti' || !in_array($roomCode, ['K1', 'K2', 'K3', 'K4', 'K5'], true)) {
+                // Terima seluruh 6 kamar aktif (K1-K5 + TH1 Tera House)
+                if (!in_array($roomCode, ['K1', 'K2', 'K3', 'K4', 'K5', 'TH1'], true)) {
                     $skippedScope++;
                     continue;
                 }
@@ -97,6 +97,8 @@ class ActualReservationsSeeder extends Seeder
                 $statusRaw = $row[$headerMap['status']] ?? 'PAID_OFF';
                 $channelRaw = strtolower($row[$headerMap['channel']] ?? '');
                 $otaName = strtolower($row[$headerMap['ota_name']] ?? '');
+                $guestCount = (int) ($row[$headerMap['guest_count'] ?? -1] ?? ($room->type->capacity ?? 2));
+                $payMethodRaw = strtolower(trim($row[$headerMap['payment_method'] ?? -1] ?? ''));
                 $rentalType = ($row[$headerMap['rental_type']] ?? '') === 'transit' ? 'transit' : 'harian';
                 $notes = $row[$headerMap['notes']] ?? '';
 
@@ -111,7 +113,9 @@ class ActualReservationsSeeder extends Seeder
                 } elseif (str_contains($otaName, 'agoda') || str_contains($channelRaw, 'agoda')) {
                     $channel = 'agoda';
                 } elseif ($channelRaw === 'ota') {
-                    $channel = 'agoda'; // default OTA
+                    $channel = 'agoda';
+                } elseif (str_contains($channelRaw, 'whatsapp')) {
+                    $channel = 'whatsapp';
                 } else {
                     $channel = 'walk_in';
                 }
@@ -130,7 +134,7 @@ class ActualReservationsSeeder extends Seeder
                     'guest_name' => $guestName,
                     'guest_city' => $guestCity,
                     'guest_phone' => $guestPhone,
-                    'guest_count' => $room->roomType->capacity ?? 2,
+                    'guest_count' => max(1, $guestCount),
                     'check_in' => $checkIn,
                     'check_out' => $checkOut,
                     'nights' => $nights,
@@ -151,7 +155,15 @@ class ActualReservationsSeeder extends Seeder
 
                 // Buat data pembayaran lunas untuk checked_out
                 if ($status !== Reservation::STATUS_CANCELLED && $totalPrice > 0) {
-                    $method = in_array($channel, Reservation::OTA_CHANNELS, true) ? 'ota' : 'cash';
+                    if (str_contains($payMethodRaw, 'ota') || in_array($channel, Reservation::OTA_CHANNELS, true)) {
+                        $method = 'ota';
+                    } elseif (str_contains($payMethodRaw, 'qris')) {
+                        $method = 'qris';
+                    } elseif (str_contains($payMethodRaw, 'transfer')) {
+                        $method = 'transfer';
+                    } else {
+                        $method = 'cash';
+                    }
 
                     DB::table('payments')->insert([
                         'reservation_id' => $resId,
@@ -159,7 +171,7 @@ class ActualReservationsSeeder extends Seeder
                         'amount' => $totalPrice,
                         'method' => $method,
                         'paid_at' => $dtIn->copy()->setTime(14, 15),
-                        'note' => 'Pembayaran lunas buku kas fisik owner',
+                        'note' => 'Pembayaran lunas dataset sintetis terkalibrasi',
                         'received_by' => $staff?->id,
                         'created_at' => $dtIn->copy()->setTime(14, 15),
                         'updated_at' => $dtIn->copy()->setTime(14, 15),
